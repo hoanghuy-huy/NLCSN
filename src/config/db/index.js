@@ -1,15 +1,14 @@
+
 const mongoose = require('mongoose');
 
-async function connect() {
-  try {
-    await mongoose.connect('mongodb://localhost/qlsv', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('Connected to MongoDB');
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-  }
+async function Connect () {
+    try {
+        // ket noi den mongodb
+        await mongoose.connect('mongodb://localhost:27017/QuanLyThucTap');
+        console.log("Connect successfully")
+    } catch (error) {
+        console.log("Connect Failure")
+    }
 }
 
-module.exports = { connect };
+module.exports = { Connect } 

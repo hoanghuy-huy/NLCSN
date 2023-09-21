@@ -1,12 +1,16 @@
-const homeRouter = require('./home')
-const siteRouter = require('./login')
-const abcRouter = require('./abc')
+const adminRouter = require('./admin')
+const siteRouter = require('./site')
 
 
-function route(app){
-    app.use('/abc',abcRouter)
-    app.use('/login',siteRouter)
-    app.use('/',homeRouter)
+function route(app) {
+
+
+
+ 
+   app.use('/admin', adminRouter)
+   
+   app.use('/', siteRouter)
+ 
 }
 
-module.exports = route;
+module.exports = route

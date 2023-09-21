@@ -5,17 +5,14 @@ const app = express();
 const { engine } = require('express-handlebars');
 const path = require('path');
 const route = require('./routes')
-const db = require('./config/db');
-const { mongo } = require('mongoose');
-
+const db = require('./config/db')
 
 // HTTP
 app.use(morgan('combined'));
 
-// Connect to DB
-db.connect();
+//conncect to db
+db.Connect();
 
-const UserModel = mongoose.model("users",UserSchema)
 
 // template engine 
 app.engine('.hbs', engine({ extname: '.hbs' }));
@@ -29,9 +26,6 @@ app.use(express.static(path.join(__dirname,'public')));
 route(app)
 
 
-
-
-
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 })
