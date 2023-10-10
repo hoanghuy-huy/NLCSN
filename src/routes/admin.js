@@ -1,30 +1,28 @@
 const express = require('express')
-const app = express()
 const router = express.Router()
 const adminController = require('../app/controllers/AdminController')
 
 
-router.get('/internships/:id',adminController.internshipsFindId)
-router.get('/internships',adminController.internships)
+
+router.post('/lecturers/store',adminController.saveLecturer)
+router.get('/lecturers/create',adminController.createLecturer)
+router.get('/lecturers',adminController.showLecturers)
+router.get('/lecturers/:id',adminController.showLecturer)
+router.delete('/lecturers/:id',adminController.deleteLecturer)
+router.put('/lecturers/:id',adminController.updateLecturer)
+router.get('/lecturers/:id/edit',adminController.editLecturer)
 
 
-router.get('/remindertimes/:id',adminController.remindertimesFindId)
-router.get('/remindertimes',adminController.remindertimes)
-
-//admin manage enterprises
-router.get('/enterprises/:id',adminController.enterpriseFindId)
-router.get('/enterprises',adminController.enterprises)
-
-//admin manage lecturers
-router.get('/lecturers/:id',adminController.lecturerFindId)
-router.get('/lecturers',adminController.lecturers)
-
-
-// admin manage students
-router.get('/students/:id',adminController.studentsFindId)
-router.get('/students',adminController.students)
-
+router.post('/students/store',adminController.saveStudent)
+router.get('/students/create',adminController.createStudent)
+router.get('/students',adminController.showStudents)
+router.get('/students/:id',adminController.showStudent)
+router.get('/students/:id/edit',adminController.editStudent)
+router.put('/students/:id',adminController.updateStudent)
+router.delete('/students/:id',adminController.deleteStudent)
 // admin home
+
+router.get('/test/:id',adminController.test)
 router.get('/', adminController.index)
 
 

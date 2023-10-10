@@ -1,0 +1,71 @@
+<style>
+  .lecturer-info {
+    margin-top: 50px;
+  }
+  
+  .info-card {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .info-card h6 {
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .right-column {
+    padding-top: 100px;
+  }
+  
+  .right-column .col-sm-3 {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #333;
+  }
+</style>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      {{#each lecturer}}
+      <h3 class="d-flex justify-content-center" style="padding-top: 20px;" >lecturer Information</h3>
+      <div class="lecturer-info">
+        <div class="info-card">
+          <h6><strong>ID:</strong> {{this.id}}  </h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Name:</strong> {{this.lastName}} {{this.firstName}}  </h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Year Of Birth:</strong> {{this.yearOfBirth}}</h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Gender:</strong> {{this.gender}}</h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Email:</strong> {{this.email}}</h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Phone:</strong> {{this.phone}}</h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Address:</strong> {{this.address}}</h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>id of enterprise:</strong> {{this.idOfEnterprise}}</h6>
+        </div>
+      {{/each}}
+    </div>
+
+    <div class="col-sm-6 right-column">
+
+    </div>
+
+  </div>
+</div>

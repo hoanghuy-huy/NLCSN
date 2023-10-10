@@ -1,0 +1,111 @@
+<style>
+
+.container {  display: grid;
+  grid-template-columns: 400px 400px 300px;
+  grid-template-rows: 1fr;
+  grid-auto-columns: 1fr;
+  gap: 0px 8px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "c1 main c2";
+}
+
+.main { grid-area: main; }
+
+.c1 { grid-area: c1; }
+
+.c2 { grid-area: c2; }
+
+
+.form {
+  max-width: 400px;
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0px 0px 0px 4px rgba(52, 52, 53, 0.185);
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #1a202c;
+}
+
+.label {
+  color: rgb(0, 0, 0);
+  margin-bottom: 4px;
+}
+
+.input {
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  font-size: 1rem;
+  color: #4a5568;
+  outline: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+}
+
+.input:focus {
+  background-color: #fff;
+  box-shadow: 0 0 0 2px #cbd5e0;
+}
+
+.input:valid {
+  border: 1px solid green;
+}
+
+.input:invalid {
+  border: 1px solid rgba(14, 14, 14, 0.205);
+}
+
+.submit {
+  background-color: #1a202c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+}
+
+
+
+</style>
+
+
+<div class="container" style="padding-top: 50px;">
+  <div class="main">
+        <form class="form" method="POST" action="store">
+            <span class="title">Giấy Giới Thiệu</span>
+            <label for="id" class="label">MSSV</label>
+            <input type="text" id="id" name="id" class="input" required="">
+            <label for="name" class="label">Tên Sinh Viên</label>
+            <input type="text" id="name" name="name" class="input" required="">
+            <label for="class" class="label">Lớp</label>
+            <input type="text" id="class" name="class" class="input" required="">
+            <label for="faculty" class="label">Khoa</label>
+            <input type="text" id="faculty" name="faculty" class="input" required="">
+            <label for="yearOfBirth" class="label">Năm Sinh</label>
+            <input type="text" id="yearOfBirth" name="yearOfBirth" class="input" required="">
+            <label for="key" class="label">Khóa</label>
+            <input type="text" id="key" name="key" class="input" required="">
+            <label for="enterprise" class="label">Thực tập ở doanh nghiệp nào</label>
+            <input type="text" id="enterprise" name="enterprise" class="input" required="">
+            <label for="work" class="label">Về Việc</label>
+            <input type="text" id="work" name="work" class="input" required="">
+            <button type="submit" class="submit">Xác Nhận</button>
+        </form>
+  </div>
+  <div class="c1"></div>
+  <div class="c2"></div>
+</div>
+

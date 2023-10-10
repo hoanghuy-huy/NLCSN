@@ -1,0 +1,84 @@
+<style>
+  .student-info {
+    margin-top: 50px;
+  }
+  
+  .info-card {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .info-card h6 {
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .right-column {
+    padding-top: 100px;
+  }
+  
+  .right-column .col-sm-3 {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #333;
+  }
+</style>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      {{#each student}}
+      <h3 class="d-flex justify-content-center" style="padding-top: 20px;" >Student Information</h3>
+      <div class="student-info">
+        <div class="info-card">
+          <h6><strong>ID:</strong> {{this.id}}  </h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Name:</strong> {{this.lastName}} {{this.firstName}}  </h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Year Of Birth:</strong> {{this.yearOfBirth}}</h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Gender:</strong> {{this.gender}}</h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Course:</strong> {{this.key}} ({{this.yearOfStudy}})</h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Email:</strong> {{this.email}}</h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Phone:</strong> {{this.phone}}</h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Address:</strong> {{this.address}}</h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Field of Study:</strong> {{this.fieldOfStudy}}</h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Class :</strong> {{this.class}}</h6>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+
+    <div class="col-sm-6 right-column">
+
+      <h1>Test</h1>
+      {{#each lecturer}}
+            {{this.name}}
+      {{/each}}
+
+
+    </div>
+
+  </div>
+</div>

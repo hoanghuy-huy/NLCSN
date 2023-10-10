@@ -7,7 +7,7 @@ class SiteController {
         student.find({})
             .then(students => {
                 // chuyen thanh object binh thuong
-                res.render('home' , {
+                res.render('search' , {
                     //van de handlebars bao mat
                     students: multipleMongooseToObject(students)
                 })

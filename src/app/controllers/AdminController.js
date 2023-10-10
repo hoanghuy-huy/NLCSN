@@ -1,173 +1,167 @@
+
+const { multipleMongooseToObject, mongooseToObject } = require('../../util/mongoose');
 const student = require('../models/student')
-const { multipleMongooseToObject } = require('../../util/mongoose');
-const lecturer = require('../models/lecturer')
-const enterprise = require('../models/enterprises')
-const remindertime = require('../models/remindertime')
-const internship = require('../models/internship')
+const lecturer = require('../models/lecturer');
 
 class AdminController {
     
     //[GET] /admin
     index(req, res) {
-        res.render('admin')
+        res.render('admin/index',{ layout: 'admin'})
     }
 
-    // find students
-    students(req, res, next) {
+    //[GET] /admin/student
+    showStudents(req, res, next) {
         student.find({})
         .then(students => {
             // chuyen thanh object binh thuong
-            res.render('admin_student' , {
-                //van de handlebars bao mat
-                students: multipleMongooseToObject(students)
+            res.render('admin/show_students' , {
+                layout: 'admin',
+                students: multipleMongooseToObject(students),
             })
         })
         .catch(error => next(error));  
     }
 
-
-    // find student id
-    studentsFindId(req, res, next) {
+    //[GET] /admin/student/:slug
+    showStudent(req, res, next) {
         const studentId = req.params.id;
-      
+        
         student.find({id:studentId})
           .then(student => {
             if (!student) {
-              // Xử lý trường hợp không tìm thấy sinh viên với ID cụ thể
-              res.render('not_found');
+                
             } else {
-              res.render('admin_student_id', {
+              res.render('admin/show_student', {
+                layout: 'admin',
                 student: multipleMongooseToObject(student)
               });
             }
           })
-          .catch(error => next(error));  
+          .catch(error => next(error));
+
     }
 
-    lecturers(req, res, next ) {
-      lecturer.find({})
-      .then(lecturers => {
-          res.render('admin_lecturer' , {
-              //van de handlebars bao mat
-              lecturers: multipleMongooseToObject(lecturers)
-          })
-      })
-      .catch(error => next(error)); 
+    //[GET] admin/student/create  
+    createStudent(req, res, next) {
+        res.render('admin/create_student',{ layout: 'admin' })
     }
-
-    // find lecture id
-    lecturerFindId(req, res, next) {
-      const lecturerId = req.params.id;
-    
-      lecturer.find({id:lecturerId})
-        .then(lecturer => {
-          if (!lecturer) {
-            // Xử lý trường hợp không tìm thấy sinh viên với ID cụ thể
-            res.render('not_found');
-          } else {
-            res.render('admin_lecturer_id', {
-              lecturer: multipleMongooseToObject(lecturer)
-            });
-          }
-        })
-        .catch(error => next(error));  
-  }
-
-  enterprises(req, res, next ) {
-    enterprise.find({})
-    .then(enterprises => {
-        res.render('admin_enterprise' , {
-            //van de handlebars bao mat
-            enterprises: multipleMongooseToObject(enterprises)
-        })
-    })
-    .catch(error => next(error)); 
-  }
-
-  enterpriseFindId(req, res, next) {
-    const enterpriseId = req.params.id;
   
-    enterprise.find({id:enterpriseId})
-      .then(enterprise => {
-        if (!enterprise) {
-          // Xử lý trường hợp không tìm thấy sinh viên với ID cụ thể
-          res.render('not_found');
-        } else {
-          res.render('admin_enterprise_id', {
-            enterprise: multipleMongooseToObject(enterprise)
-          });
-        }
-      })
-      .catch(error => next(error));  
-}
-
+    // [POST] admin/student/store
+    saveStudent(req, res, next) {
+      const formData = req.body;
+      formData.key = formData.yearOfStudy - 1974
+      formData.email = formData.firstName + formData.id+'@student.ctu.edu.vn'
+      const newStudent = new student(formData)
+      newStudent.save()
+          .then(() => res.redirect('/admin/students'),{layout: 'admin'})
+          .catch(error => next(error)); 
+    }
+  
+    //{GET} admin/student/:id/edit
+    editStudent(req, res, next) {
+      const studentId = req.params.id;
+        student.find({id:studentId})
+          .then(student => res.render('admin/edit_student' , {
+            layout: 'admin',
+            student: multipleMongooseToObject(student),
+            
+          }))
+          .catch(error => next(error));
+          
+    }
     
-    internships(req, res, next) {
-      internship.find({})
-      .then(internships => {
-          // chuyen thanh object binh thuong
-          res.render('admin_internship' , {
-              //van de handlebars bao mat
-              internships: multipleMongooseToObject(internships)
-          })
-      })
-      .catch(error => next(error));  
-  }
-
-
-
-    internshipsFindId(req, res, next) {
-      const internshipId = req.params.id;
-    
-      internship.find({id:internshipId})
-        .then(internship => {
-          if (!internship) {
-            res.render('not_found');
-          } else {
-            res.render('admin_internship_id', {
-              internship: multipleMongooseToObject(internship)
-            });
-          }
-        })
-        .catch(error => next(error));  
-  }
-
-   
-    
-    remindertimes(req , res, next) {
-      remindertime.find({})
-      .then(remindertimes => {
-       res.render('admin_remindertime_id' , {
-              //van de handlebars bao mat
-              remindertimes: multipleMongooseToObject(remindertimes)
-          })
-      })
-      .catch(error => next(error)); 
-      
+    //[PUT] admin/student/:id
+    updateStudent(req, res, next) {
+      student.findOneAndUpdate({id: req.params.id} , req.body)
+          .then(() => res.redirect('/admin/students'))
+          .catch(next)
+    }
+  
+    //[DELETE] admin/student/:id
+    deleteStudent(req, res, next) {
+      student.deleteOne({id: req.params.id})
+            .then(()=> res.redirect('back'))
+            .catch(next)
     }
 
-    remindertimesFindId(req, res, next) {
-      const remindertimeId = req.params.id;
+    //[GET] admin/lecturers
+    showLecturers(req, res,next) {
+      lecturer.find({})
+        .then(lecturers => res.render('admin/show_lecturers',{
+          layout:"admin",
+          lecturers:multipleMongooseToObject(lecturers),
+        }))
+        .catch(next)
+    }
+
+    //[GET] admin/lecturers/:id
+    showLecturer(req, res,next) {
+      lecturer.find({id:req.params.id})
+        .then(lecturer => res.render('admin/show_lecturer',{
+          layout:'admin',
+          lecturer:multipleMongooseToObject(lecturer)
+        }))
+        .catch(next)
+    }
+
+    //[GET] admin/lecturers/create
+    createLecturer(req, res, next) {
+      res.render('admin/create_lecturer',{layout:"admin"})
+    }
+
+    //[POST] admin/lecturers/store
+    saveLecturer(req, res, next) {
+      const formData = req.body
+      const newLecturer = new lecturer(formData)
+      newLecturer.save()
+        .then(() => res.redirect('/admin/lecturers'),{layout: 'admin'})
+        .catch(error => next(error)); 
+    }
+
+    //[GET] admin/lecturers/:id/edit
+    editLecturer(req, res, next) {
+      const idLecturer = req.params.id
+      lecturer.find({id:idLecturer})
+        .then(lecturer => res.render('admin/edit_lecturer',{
+          layout:'admin',
+          lecturer: multipleMongooseToObject(lecturer),
+        }))
+        .catch(next)
+    }
+
+    //[PUT] /admin/lecturer/:id
+    updateLecturer(req, res, next) {
+      lecturer.findOneAndUpdate({id: req.params.id},req.body)
+        .then(()=>res.redirect('/admin/lecturers'))
+        .catch(next)
+    }
+
+    //[DELETE] /admin/lecturer/:id
+    deleteLecturer(req, res, next) {
+      lecturer.findOneAndDelete({id:req.params.id})
+        .then(()=> res.redirect('back'))
+        .catch(next)
+    }
+
     
-      remindertime.find({id:remindertimeId})
-        .then(remindertime => {
-          if (!remindertime) {
-            // Xử lý trường hợp không tìm thấy sinh viên với ID cụ thể
-            res.render('not_found');
-          } else {
-            res.render('admin_remindertime_id', {
-              remindertime: multipleMongooseToObject(remindertime)
-            });
-          }
-        })
-        .catch(error => next(error));  
-  }
+    test(req, res, next){
+      // const studentId = req.params.id;
+      //   student.find({id:studentId})
+      //   .populate('lecturer')
+      //   .then(student => {
+      //     if (!student) {
+              
+      //     } else {
+      //       res.render('admin/show_test', {
+      //         layout: 'admin',
+      //         student: multipleMongooseToObject(student)
+      //       });
+      //     }
+      //   })
+      //   .catch(error => next(error));
+    }
 
-
+    
 }
-
-
-
-
-
 module.exports = new AdminController

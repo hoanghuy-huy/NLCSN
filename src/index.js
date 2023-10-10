@@ -6,6 +6,8 @@ const { engine } = require('express-handlebars');
 const path = require('path');
 const route = require('./routes')
 const db = require('./config/db')
+const  methodOverride = require('method-override')
+
 
 // HTTP
 app.use(morgan('combined'));
@@ -13,13 +15,37 @@ app.use(morgan('combined'));
 //conncect to db
 db.Connect();
 
+// req.body
+app.use(express.urlencoded())
+app.use(express.json())
+
+
+// Chuyen phuong thuc truyen tren url
+app.use(methodOverride('_method'))
+
 
 // template engine 
-app.engine('.hbs', engine({ extname: '.hbs' }));
-app.set('view engine', '.hbs');
-app.set('views', path.join(__dirname,'resources','views'));
+app.engine('.hbs',
+  engine({ 
+    extname: '.hbs' ,
+    defaultLayout:'main', 
+    helpers: {
+      sum: (a, b) => a+b,
+      
+    },
+    
+  }),
+  
+);
 
-app.use(express.static(path.join(__dirname,'public')));
+
+
+
+app.set('view engine', '.hbs')
+app.set('views', path.join(__dirname,'resources','views'))
+app.use(express.static(path.join(__dirname,'public')))
+
+
 
 
 // routes init

@@ -1,3 +1,5 @@
+
+const studentRouter = require('./student')
 const adminRouter = require('./admin')
 const siteRouter = require('./site')
 
@@ -5,10 +7,9 @@ const siteRouter = require('./site')
 function route(app) {
 
 
-
- 
+   app.use('/site',siteRouter)
+   app.use('/student', studentRouter)
    app.use('/admin', adminRouter)
-   
    app.use('/', siteRouter)
  
 }
