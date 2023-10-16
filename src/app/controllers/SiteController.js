@@ -13,8 +13,6 @@ class SiteController {
                 })
             })
             .catch(error => next(error));
-
-        // res.render('home')
     }
 
     search(req, res) {

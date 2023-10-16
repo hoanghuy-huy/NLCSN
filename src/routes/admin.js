@@ -3,7 +3,6 @@ const router = express.Router()
 const adminController = require('../app/controllers/AdminController')
 
 
-
 router.post('/lecturers/store',adminController.saveLecturer)
 router.get('/lecturers/create',adminController.createLecturer)
 router.get('/lecturers',adminController.showLecturers)
@@ -22,7 +21,7 @@ router.put('/students/:id',adminController.updateStudent)
 router.delete('/students/:id',adminController.deleteStudent)
 // admin home
 
-router.get('/test/:id',adminController.test)
+
 router.get('/', adminController.index)
 
 

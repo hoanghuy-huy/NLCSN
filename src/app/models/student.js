@@ -2,8 +2,22 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 
-const student = new Schema({
-    id:{ type: String, min: 1},
+const student = new Schema(
+  {
+    id:{ 
+      type: String,
+      unique: true,
+      required: true,
+      lowercase: true,
+    },
+    lecturerId: {
+      type: Schema.Types.ObjectId,
+      ref: 'lecturer'
+    },
+    enterpriseId: {
+      type: Schema.Types.ObjectId,
+      ref: 'enterprise'
+    },
     lastName: {
         type: String,
         set: (value) => {
@@ -34,11 +48,11 @@ const student = new Schema({
         },
         get: (value) => value // Giữ lại giá trị gốc khi lấy từ cơ sở dữ liệu
       },
-    yearOfBirth:{ type: String, min: 1 },
-    yearOfStudy:{ type: Number, min: 4 },
-    class:{ type: String, min: 1 },
-    gender:{ type: String, min: 1 },
-    fieldOfStudy:{ type: String, min: 1 },
+    yearOfBirth:{ type: String},
+    yearOfStudy:{ type: Number,},
+    class:{ type: String,},
+    gender:{ type: String,},
+    fieldOfStudy:{ type: String,},
     email:{ 
         type: String,
         lowercase:true,
@@ -46,10 +60,13 @@ const student = new Schema({
     phone:{type: Number },
     address:{type:String },
     key:{type:Number},
+  },
 
-})
+)
 
 
 
 
-module.exports = mongoose.model('student', student)
+const Student = mongoose.model('student', student)
+
+module.exports = Student

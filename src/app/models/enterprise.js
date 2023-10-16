@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 
 
-const lecturer = new Schema({
+const enterprise = new Schema({
   id:{ 
     type: String,
     unique: true,
@@ -57,4 +57,4 @@ const lecturer = new Schema({
 
 
 
-module.exports = mongoose.model('lecturer', lecturer)
+module.exports = mongoose.model('enterprise', enterprise)

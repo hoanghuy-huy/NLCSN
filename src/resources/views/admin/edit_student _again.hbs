@@ -1,6 +1,6 @@
 
 <style>
-.form {
+    .form {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -200,68 +200,69 @@
 </style>
 
 
-<div class="container" style="padding-top: 30px;">
+{{#each student}}
+ <div class="container" style="padding-top: 30px;">
     <div class="content1">
         
     </div>
     <div class="content2" style="padding-left: 330px;",>
         <div>
-            <form class="form" method="POST" action="/admin/students/store">
+            <form class="form" method="POST" action="/admin/students/{{this.id}}?_method=PUT">
                 <div class="flex">
                     <label>
-                        <input required="" placeholder="" type="text" class="input" name="id" id="id">
+                        <input required="" placeholder="" value="{{this.id}}" type="text" class="input" name="id" id="id">
                         <span>id</span>
                     </label>
 
                     <label>
-                        <input required="" placeholder="" type="text" class="input" name="firstName" id="firstName">
+                        <input required="" placeholder="" value="{{this.firstName}}" type="text" class="input" name="firstName" id="firstName">
                         <span>first name</span>
                     </label>
 
                     <label>
-                        <input required="" placeholder="" type="text" class="input" name="lastName" id="lastName">
+                        <input required="" placeholder="" value="{{this.lastName}}" type="text" class="input" name="lastName" id="lastName">
                         <span>last name</span>
                     </label>
                 </div>  
         
                 <label>
-                    <input required="" placeholder="" type="text" class="input" name="class" id="class">
+                    <input required="" placeholder="" value="{{this.class}}" type="text" class="input" name="class" id="class">
                     <span>class</span>
                 </label> 
                         
                 <label>
-                    <input required="" type="text" placeholder="" class="input" name="gender" id="gender">
+                    <input required="" type="text" placeholder="" value="{{this.gender}}" class="input" name="gender" id="gender">
                     <span>gender</span>
                 </label>
         
                 <label>
-                    <input required="" placeholder="" type="text" class="input" name="fieldOfStudy" id="fieldOfStudy">
+                    <input required="" placeholder="" value="{{this.fieldOfStudy}}" type="text" class="input" name="fieldOfStudy" id="fieldOfStudy">
                     <span>majors</span>
                 </label> 
                     
                 <label>
-                    <input required="" type="text" placeholder="" class="input" name="yearOfBirth" id="yearOfBirth">
+                    <input required="" type="text" placeholder="" value="{{this.yearOfBirth}}" class="input" name="yearOfBirth" id="yearOfBirth">
                     <span>year of birth</span>
                 </label>
                     
                 <label>
-                    <input required="" type="text" placeholder="" class="input" name="yearOfStudy" id="yearOfStudy">
+                    <input required="" type="text" placeholder="" value="{{this.yearOfStudy}}" class="input" name="yearOfStudy" id="yearOfStudy">
                     <span>year of study</span>
                 </label>
          
                 <label>
-                    <input required="" type="text" placeholder="" class="input" name="address" id="address">
+                    <input required="" type="text" placeholder="" value="{{this.address}}" class="input" name="address" id="address">
                     <span>address</span>
                 </label>
 
                 <label>
-                    <input required="" type="text" placeholder="" class="input" name="phone" id="phone">
+                    <input required="" type="text" placeholder="" value="{{this.phone}}" class="input" name="phone" id="phone">
                     <span>contact number</span>
                 </label>
 
                 <button class="fancy" type="submit">
                 <span class="top-key"></span>
-                <span class="text">Create</span>
+                <span class="text">Save</span>
                 <span class="bottom-key-1"></span>
                 <span class="bottom-key-2"></span>
                 </button>
@@ -270,3 +271,4 @@
     </div>
 </div>
 
+{{/each}}

@@ -2,7 +2,7 @@
 const { multipleMongooseToObject, mongooseToObject } = require('../../util/mongoose');
 const student = require('../models/student')
 const lecturer = require('../models/lecturer');
-
+const enterprise = require('../models/enterprise')
 class AdminController {
     
     //[GET] /admin
@@ -24,23 +24,42 @@ class AdminController {
     }
 
     //[GET] /admin/student/:slug
+    // showStudent(req, res, next) {
+    //     const studentId = req.params.id;
+        
+    //     student.find({id:studentId})
+    //       .then(student => {
+    //         if (!student) {
+                
+    //         } else {
+    //           res.render('admin/show_student', {
+    //             layout: 'admin',
+    //             student: multipleMongooseToObject(student)
+    //           });
+    //         }
+    //       })
+    //       .catch(error => next(error));
+    // }
+
     showStudent(req, res, next) {
         const studentId = req.params.id;
         
-        student.find({id:studentId})
+        const doc = student.find({id:studentId})
+         .populate('lecturerId')
+         .populate('enterpriseId')
           .then(student => {
             if (!student) {
                 
             } else {
-              res.render('admin/show_student', {
+                res.render('admin/show_student', {
                 layout: 'admin',
                 student: multipleMongooseToObject(student)
               });
             }
           })
           .catch(error => next(error));
+  }
 
-    }
 
     //[GET] admin/student/create  
     createStudent(req, res, next) {
@@ -50,12 +69,22 @@ class AdminController {
     // [POST] admin/student/store
     saveStudent(req, res, next) {
       const formData = req.body;
-      formData.key = formData.yearOfStudy - 1974
-      formData.email = formData.firstName + formData.id+'@student.ctu.edu.vn'
-      const newStudent = new student(formData)
-      newStudent.save()
-          .then(() => res.redirect('/admin/students'),{layout: 'admin'})
-          .catch(error => next(error)); 
+      formData.key = formData.yearOfStudy - 1974;
+      formData.email = formData.firstName + formData.id + '@student.ctu.edu.vn';
+      // Kiểm tra xem sinh viên với ID đã tồn tại hay chưa
+      student.findOne({ id: formData.id })
+        .then(existingStudent => {
+          if (existingStudent) {
+            res.send('<script>alert(" ID sinh viên đã tồn tại!"); window.history.back();</script>');
+          } else {
+            // Sinh viên chưa tồn tại với ID tương ứng, tạo đối tượng sinh viên mới và lưu vào cơ sở dữ liệu
+            const newStudent = new student(formData);
+            newStudent.save()
+              .then(() => res.redirect('/admin/students'))
+              .catch(error => next(error));
+          }
+        })
+        .catch(error => next(error));
     }
   
     //{GET} admin/student/:id/edit
@@ -67,17 +96,21 @@ class AdminController {
             student: multipleMongooseToObject(student),
             
           }))
-          .catch(error => next(error));
-          
+          .catch(error => next(error));  
     }
-    
+
+
     //[PUT] admin/student/:id
     updateStudent(req, res, next) {
       student.findOneAndUpdate({id: req.params.id} , req.body)
           .then(() => res.redirect('/admin/students'))
-          .catch(next)
+          .catch((error) => {
+            res.send('<script>alert("ID sinh viên đã tồn tại!"); window.history.back();</script>');
+          });
     }
   
+
+
     //[DELETE] admin/student/:id
     deleteStudent(req, res, next) {
       student.deleteOne({id: req.params.id})
@@ -113,10 +146,19 @@ class AdminController {
     //[POST] admin/lecturers/store
     saveLecturer(req, res, next) {
       const formData = req.body
-      const newLecturer = new lecturer(formData)
-      newLecturer.save()
-        .then(() => res.redirect('/admin/lecturers'),{layout: 'admin'})
-        .catch(error => next(error)); 
+      lecturer.findOne({ id: formData.id })
+      .then(existing => {
+        if (existing) {
+          res.send('<script>alert(" ID giang vien đã tồn tại!"); window.history.back();</script>');
+        } else {
+          // Sinh viên chưa tồn tại với ID tương ứng, tạo đối tượng sinh viên mới và lưu vào cơ sở dữ liệu
+          const doc = new lecturer(formData);
+          doc.save()
+            .then(() => res.redirect('/admin/lecturers'))
+            .catch(error => next(error));
+        }
+      })
+      .catch(error => next(error));
     }
 
     //[GET] admin/lecturers/:id/edit
@@ -134,7 +176,9 @@ class AdminController {
     updateLecturer(req, res, next) {
       lecturer.findOneAndUpdate({id: req.params.id},req.body)
         .then(()=>res.redirect('/admin/lecturers'))
-        .catch(next)
+        .catch((error) => {
+          res.send('<script>alert("ID giảng viên đã tồn tại!"); window.history.back();</script>');
+        });
     }
 
     //[DELETE] /admin/lecturer/:id
@@ -144,23 +188,6 @@ class AdminController {
         .catch(next)
     }
 
-    
-    test(req, res, next){
-      // const studentId = req.params.id;
-      //   student.find({id:studentId})
-      //   .populate('lecturer')
-      //   .then(student => {
-      //     if (!student) {
-              
-      //     } else {
-      //       res.render('admin/show_test', {
-      //         layout: 'admin',
-      //         student: multipleMongooseToObject(student)
-      //       });
-      //     }
-      //   })
-      //   .catch(error => next(error));
-    }
 
     
 }
