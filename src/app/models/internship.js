@@ -4,13 +4,12 @@ const Schema = mongoose.Schema;
 
 
 
-const enterprise = new Schema({
-
+const internship = new Schema({
       id:{ 
         type: String,
         lowercase: true,
       },
-      name: {
+      topic: {
         type: String,
         set: (value) => {
           if (typeof value !== 'string') return value;
@@ -25,18 +24,20 @@ const enterprise = new Schema({
         },
         get: (value) => value // Giữ lại giá trị gốc khi lấy từ cơ sở dữ liệu
       },
-      phone:{type: Number },
-      address:{type:String },
-      email:{ 
-        type: String,
-        lowercase:true,
+      description:{type:String},
+      idEnterprise: {
+        type:Object,
       },
-
+      idLecturer: {
+        type:Object,
+      },
 })
 
+internship.set('strictPopulate', false); 
 
-const Enterprise = mongoose.model('enterprise', enterprise)
 
-module.exports = Enterprise
+const Internship = mongoose.model('internship', internship)
+  
+module.exports = Internship
 
 

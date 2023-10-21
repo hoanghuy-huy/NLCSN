@@ -199,64 +199,38 @@
   width: 0;
 }
 </style>
-{{#each lecturer}}
+{{#each internship}}
   <div class="container" style="padding-top: 30px;" >
     <div class="content1">
         
     </div>
     <div class="content2" style="padding-left: 330px;",>
         <div>
-            <form class="form" method="POST" action="/admin/lecturers/{{this.id}}?_method=PUT">
-                <div class="flex">
-                    <label>
-                        <input required="" placeholder="" value="{{this.id}}" type="text" class="input" name="id" id="id">
-                        <span>id</span>
-                    </label>
+            <form class="form" method="POST" action="/admin/internships/{{this.id}}?_method=PUT">
 
-                    <label>
-                        <input required="" placeholder="" value="{{this.firstName}}" type="text" class="input" name="firstName" id="firstName">
-                        <span>first name</span>
-                    </label>
-
-                    <label>
-                        <input required="" placeholder="" value="{{this.lastName}}" type="text" class="input" name="lastName" id="lastName">
-                        <span>last name</span>
-                    </label>
-                </div>  
-                    
                 <label>
-                    <input required="" type="text" placeholder="" value="{{this.gender}}" class="input" name="gender" id="gender">
-                    <span>gender</span>
+                    <input required="" placeholder="" value="{{this.id}}" type="text" class="input" name="id" id="id">
+                    <span>id</span>
                 </label>
 
                 <label>
-                    <input required="" type="text" placeholder="" value="{{this.yearOfBirth}}" class="input" name="yearOfBirth" id="yearOfBirth">
-                    <span>year of birth</span>
+                    <input required="" placeholder="" value="{{this.topic}}" type="text" class="input" name="topic" id="topic">
+                    <span>topic</span>
                 </label>
-                    
+           
                 <label>
-                    <input required="" type="text" placeholder="" value="{{this.yearOfStudy}}" class="input" name="yearOfStudy" id="yearOfStudy">
-                    <span>year of study</span>
-                </label>
-                
-                {{!-- <label>
-                    <input required="" placeholder="" value="{{this.idOfEnterprise}}" type="text" class="input" name="idOfEnterprise" id="idOfEnterprise">
-                    <span>id of enterprise</span>
-                </label>  --}}
-                                
-                <label>
-                    <input required="" type="text" placeholder="" value="{{this.address}}" class="input" name="address" id="address">
-                    <span>address</span>
+                    <input required="" type="text" placeholder="" value="{{this.description}}" class="input" name="description" id="description">
+                    <span>description</span>
                 </label>
         
                 <label>
-                    <input required="" placeholder="" value="{{this.email}}" type="text" class="input" name="email" id="email">
-                    <span>email</span>
+                    <input required="" placeholder="" value="{{this.idLecturer.id}}" type="text" class="input" name="idLecturer.id" id="idLecturer.id">
+                    <span>id Lecturer</span>
                 </label> 
                     
                 <label>
-                    <input required="" type="text" placeholder="" value="{{this.phone}}" class="input" name="phone" id="phone">
-                    <span>contact number</span>
+                    <input required="" type="text" placeholder="" value="{{this.idEnterprise.id}}" class="input" name="idEnterprise.id" id="idEnterprise.id">
+                    <span>id Enterprise</span>
                 </label>
 
                 <button class="fancy" type="submit">

@@ -1,0 +1,56 @@
+<style>
+  .internship-info {
+    margin-top: 50px;
+  }
+  
+  .info-card {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .info-card h6 {
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .right-column {
+    padding-top: 100px;
+  }
+  
+  .right-column .col-sm-3 {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #333;
+  }
+</style>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      {{#each internship}}
+      <h3 class="d-flex justify-content-center" style="padding-top: 20px;" >internship Information</h3>
+      <div class="internship-info">
+        <div class="info-card">
+          <h6><strong>ID:</strong> {{this.id}}  </h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Name:</strong> {{this.topic}}  </h6>
+        </div>
+        <div class="info-card">
+          <h6><strong>Email:</strong> {{this.description}}</h6>
+        </div>
+      {{/each}}
+    </div>
+
+    <div class="col-sm-6 right-column">
+
+    </div>
+
+  </div>
+</div>

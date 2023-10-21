@@ -1,6 +1,7 @@
 
 <style>
-    .form {
+
+.form {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -198,63 +199,35 @@
   width: 0;
 }
 </style>
-
-
-{{#each student}}
- <div class="container" style="padding-top: 30px;">
+{{#each enterprise}}
+  <div class="container" style="padding-top: 30px;" >
     <div class="content1">
         
     </div>
     <div class="content2" style="padding-left: 330px;",>
         <div>
-            <form class="form" method="POST" action="/admin/students/{{this.id}}?_method=PUT">
-                <div class="flex">
-                    <label>
-                        <input required="" placeholder="" value="{{this.id}}" type="text" class="input" name="id" id="id">
-                        <span>id</span>
-                    </label>
+            <form class="form" method="POST" action="/admin/enterprises/{{this.id}}?_method=PUT">
 
-                    <label>
-                        <input required="" placeholder="" value="{{this.firstName}}" type="text" class="input" name="firstName" id="firstName">
-                        <span>first name</span>
-                    </label>
+                <label>
+                    <input required="" placeholder="" value="{{this.id}}" type="text" class="input" name="id" id="id">
+                    <span>id</span>
+                </label>
 
-                    <label>
-                        <input required="" placeholder="" value="{{this.lastName}}" type="text" class="input" name="lastName" id="lastName">
-                        <span>last name</span>
-                    </label>
-                </div>  
-        
                 <label>
-                    <input required="" placeholder="" value="{{this.class}}" type="text" class="input" name="class" id="class">
-                    <span>class</span>
-                </label> 
-                        
-                <label>
-                    <input required="" type="text" placeholder="" value="{{this.gender}}" class="input" name="gender" id="gender">
-                    <span>gender</span>
+                    <input required="" placeholder="" value="{{this.name}}" type="text" class="input" name="name" id="name">
+                    <span>name</span>
                 </label>
-        
-                <label>
-                    <input required="" placeholder="" value="{{this.fieldOfStudy}}" type="text" class="input" name="fieldOfStudy" id="fieldOfStudy">
-                    <span>majors</span>
-                </label> 
-                    
-                <label>
-                    <input required="" type="text" placeholder="" value="{{this.yearOfBirth}}" class="input" name="yearOfBirth" id="yearOfBirth">
-                    <span>year of birth</span>
-                </label>
-                    
-                <label>
-                    <input required="" type="text" placeholder="" value="{{this.yearOfStudy}}" class="input" name="yearOfStudy" id="yearOfStudy">
-                    <span>year of study</span>
-                </label>
-         
+           
                 <label>
                     <input required="" type="text" placeholder="" value="{{this.address}}" class="input" name="address" id="address">
                     <span>address</span>
                 </label>
-
+        
+                <label>
+                    <input required="" placeholder="" value="{{this.email}}" type="text" class="input" name="email" id="email">
+                    <span>email</span>
+                </label> 
+                    
                 <label>
                     <input required="" type="text" placeholder="" value="{{this.phone}}" class="input" name="phone" id="phone">
                     <span>contact number</span>
@@ -272,3 +245,7 @@
 </div>
 
 {{/each}}
+
+
+
+

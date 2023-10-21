@@ -1,6 +1,7 @@
 
 <style>
-    .form {
+
+.form {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -199,64 +200,38 @@
 }
 </style>
 
-<script>alert('Sinh viên đã tồn tại')</script>
-<div class="container" style="padding-top: 30px;">
+
+<div class="container" style="padding-top: 30px;" >
     <div class="content1">
         
     </div>
     <div class="content2" style="padding-left: 330px;",>
         <div>
-            <form class="form" method="POST" action="/admin/students/store">
-                <div class="flex">
-                    <label>
-                        <input required="" placeholder="" type="text" class="input" name="id" id="id">
-                        <span>id</span>
-                    </label>
+            <form class="form" method="POST" action="/admin/internships/store">
 
-                    <label>
-                        <input required="" placeholder="" type="text" class="input" name="firstName" id="firstName">
-                        <span>first name</span>
-                    </label>
-
-                    <label>
-                        <input required="" placeholder="" type="text" class="input" name="lastName" id="lastName">
-                        <span>last name</span>
-                    </label>
-                </div>  
-        
                 <label>
-                    <input required="" placeholder="" type="text" class="input" name="class" id="class">
-                    <span>class</span>
-                </label> 
-                        
-                <label>
-                    <input required="" type="text" placeholder="" class="input" name="gender" id="gender">
-                    <span>gender</span>
+                    <input required="" placeholder="" type="text" class="input" name="id" id="id">
+                    <span>id</span>
                 </label>
-        
+
                 <label>
-                    <input required="" placeholder="" type="text" class="input" name="fieldOfStudy" id="fieldOfStudy">
-                    <span>majors</span>
+                    <input required="" placeholder="" type="text" class="input" name="topic" id="topic">
+                    <span>topic</span>
+                </label>
+
+                <label>
+                    <input required="" placeholder="" type="text" class="input" name="description" id="description">
+                    <span>description</span>
                 </label> 
                     
                 <label>
-                    <input required="" type="text" placeholder="" class="input" name="yearOfBirth" id="yearOfBirth">
-                    <span>year of birth</span>
-                </label>
-                    
-                <label>
-                    <input required="" type="text" placeholder="" class="input" name="yearOfStudy" id="yearOfStudy">
-                    <span>year of study</span>
-                </label>
-         
-                <label>
-                    <input required="" type="text" placeholder="" class="input" name="address" id="address">
-                    <span>address</span>
+                    <input required="" type="text" placeholder="" class="input" name="idLecturer" id="idLecturer">
+                    <span>Id Lecturer</span>
                 </label>
 
                 <label>
-                    <input required="" type="text" placeholder="" class="input" name="phone" id="phone">
-                    <span>contact number</span>
+                    <input required="" type="text" placeholder="" class="input" name="idEnterprise" id="idEnterprise">
+                    <span>Id Enterprise</span>
                 </label>
 
                 <button class="fancy" type="submit">

@@ -5,12 +5,12 @@ const Schema = mongoose.Schema;
 
 
 const lecturer = new Schema({
+  _id:{type:String},
   id:{ 
     type: String,
-    unique: true,
-    required: true,
     lowercase: true,
   },
+
     lastName: {
         type: String,
         set: (value) => {
@@ -55,6 +55,7 @@ const lecturer = new Schema({
 })
 
 
+const Lecturer = mongoose.model('lecturer', lecturer)
 
+module.exports = Lecturer
 
-module.exports = mongoose.model('lecturer', lecturer)

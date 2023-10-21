@@ -1,0 +1,80 @@
+<style>
+a {
+  text-decoration: none;
+  color: #333;
+}
+</style>
+
+
+<div class="container mt-3">
+  <h2>Danh Sách Doanh Nghiệp</h2>
+  <table class="table table-hover" href="enterprises/{{this.id}}">
+    <thead>
+      <tr>
+        <th>Tên Doanh Nghiệp</th>
+        <th>Mã Doanh Nghiệp</th>
+        <th>Xử Lý</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each enterprises}}
+      <tr>
+        <td><a style="text-decoration" href="enterprises/{{this.id}}">{{this.name}}</a></td>
+        <td>{{this.id}}</td>
+        <td>
+            <a href="/admin/enterprises/{{this.id}}/edit" class="btn btn-primary">Edit</a>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-Enterprise-modal" data-id="{{this.id}}">Delete</button>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="delete-Enterprise-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          Delete
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="btn-delete-Enterprise">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- Delete hidden form--}}
+<form name="delete-Enterprise-form" method="POST"></form>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var deleteEnterpriseModal = document.getElementById('delete-Enterprise-modal')
+    var btnDeleteEnterprise = document.getElementById('btn-delete-Enterprise')
+    var deleteForm = document.forms['delete-Enterprise-form']
+    var EnterpriseId
+
+    if ( deleteEnterpriseModal) {
+      deleteEnterpriseModal.addEventListener('show.bs.modal', event => {
+
+        var button = event.relatedTarget
+
+        EnterpriseId = button.getAttribute('data-id')
+
+  
+      })
+    }
+    btnDeleteEnterprise.onclick = function () {
+      deleteForm.action = '/admin/enterprises/' + EnterpriseId +'?_method=DELETE'
+      deleteForm.submit()
+    }
+  })
+</script>

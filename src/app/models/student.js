@@ -6,17 +6,7 @@ const student = new Schema(
   {
     id:{ 
       type: String,
-      unique: true,
-      required: true,
       lowercase: true,
-    },
-    lecturerId: {
-      type: Schema.Types.ObjectId,
-      ref: 'lecturer'
-    },
-    enterpriseId: {
-      type: Schema.Types.ObjectId,
-      ref: 'enterprise'
     },
     lastName: {
         type: String,
@@ -63,7 +53,7 @@ const student = new Schema(
   },
 
 )
-
+  
 
 
 
