@@ -33,7 +33,7 @@ const internship = new Schema({
       },
 })
 
-internship.set('strictPopulate', false); 
+
 
 
 const Internship = mongoose.model('internship', internship)

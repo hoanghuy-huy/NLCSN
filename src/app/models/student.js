@@ -50,12 +50,13 @@ const student = new Schema(
     phone:{type: Number },
     address:{type:String },
     key:{type:Number},
+    idInternship:{type:String},
+    idInternshipObject: {type: mongoose.Schema.Types.ObjectId, ref: 'internship' }
+    
   },
 
 )
   
-
-
 
 const Student = mongoose.model('student', student)
 

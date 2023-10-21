@@ -3,7 +3,7 @@ const { multipleMongooseToObject, mongooseToObject } = require('../../util/mongo
 const student = require('../models/student')
 const lecturer = require('../models/lecturer');
 const enterprise = require('../models/enterprise')
-const internship =require('../models/internship')
+const internship = require('../models/internship')
 
 
 class AdminController {
@@ -49,21 +49,30 @@ class AdminController {
         res.render('admin/create_student',{ layout: 'admin' })
     }
   
-    // [POST] admin/student/store
+
+
     saveStudent(req, res, next) {
       const formData = req.body;
-      formData.key = formData.yearOfStudy - 1974;
-      formData.email = formData.firstName + formData.id + '@student.ctu.edu.vn';
-      // Kiểm tra xem sinh viên với ID đã tồn tại hay chưa
       student.findOne({ id: formData.id })
-        .then(existingStudent => {
-          if (existingStudent) {
-            res.send('<script>alert(" ID sinh viên đã tồn tại!"); window.history.back();</script>');
-          } else {
-            // Sinh viên chưa tồn tại với ID tương ứng, tạo đối tượng sinh viên mới và lưu vào cơ sở dữ liệu
-            const newStudent = new student(formData);
-            newStudent.save()
-              .then(() => res.redirect('/admin/students'))
+        .then(existing => {
+          if (existing) {
+             res.send('<script>alert("ID sinh vien đã tồn tại!"); window.history.back();</script>');
+          } else {             
+            internship.findOne({ id: formData.idInternship })
+              .then(foundInternship => {
+                if (!foundInternship) {
+                  res.send('<script>alert("ID thực tập không tồn tại!"); window.history.back();</script>');
+                } else {
+                  const id = new mongoose.Types.ObjectId(foundInternship._id)
+                  formData.idInternshipObject = id
+                  formData.email = formData.firstName + formData.id + '@student.ctu.edu.vn'
+                  formData.key = formData.yearOfStudy - 1974
+                  const newStudent = new student(formData)
+                  newStudent.save()
+                  .then(() => res.redirect('/admin/students'))
+                  .catch(error => next(error));
+                }
+              })
               .catch(error => next(error));
           }
         })
@@ -80,19 +89,54 @@ class AdminController {
             
           }))
           .catch(error => next(error));  
+ 
     }
 
 
-    //[PUT] admin/student/:id
-    updateStudent(req, res, next) {
-      student.findOneAndUpdate({id: req.params.id} , req.body)
-          .then(() => res.redirect('/admin/students'))
-          .catch((error) => {
-            res.send('<script>alert("ID sinh viên đã tồn tại!"); window.history.back();</script>');
-          });
-    }
+
   
-
+    updateStudent(req, res, next) {
+        const formData = req.body
+        student.findOne({id:req.body.id})
+          .then(doc => {
+            if(req.params.id === req.body.id){
+              internship.findOne({id:req.body.idInternship})
+                .then(existing=> {
+                    if(!existing) res.send('<script>alert("ID thực tập ko tồn tại!"); window.history.back();</script>')
+                    else {
+                      const id = new mongoose.Types.ObjectId(existing._id)
+                      formData.idInternshipObject = id
+                      formData.email = formData.firstName + formData.id + '@student.ctu.edu.vn'
+                      formData.key = formData.yearOfStudy - 1974
+                      student.findOneAndUpdate({id: req.params.id} , req.body)
+                        .then(() => res.redirect('/admin/students'))
+                        .catch((error) => {
+                          res.send('error update internship');
+                        });
+                    }
+                })
+            }
+            else if(doc) res.send('<script>alert("ID sinh viên đã tồn tại!"); window.history.back();</script>')
+            else {
+              internship.findOne({id:req.body.idInternship})
+                .then(existing=> {
+                    if(!existing) res.send('<script>alert("ID thực tập ko tồn tại!"); window.history.back();</script>')
+                    else {
+                      const id = new mongoose.Types.ObjectId(existing._id)
+                      formData.idInternshipObject = id
+                      formData.email = formData.firstName + formData.id + '@student.ctu.edu.vn'
+                      formData.key = formData.yearOfStudy - 1974
+                      student.findOneAndUpdate({id: req.params.id} , req.body)
+                        .then(() => res.redirect('/admin/students'))
+                        .catch((error) => {
+                          res.send('error update internship');
+                        });
+                    }
+                })
+            }
+          })
+          .catch(next)
+    }
 
     //[DELETE] admin/student/:id
     deleteStudent(req, res, next) {
