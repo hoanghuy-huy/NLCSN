@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 
 
 const lecturer = new Schema({
-  _id:{type:String},
   id:{ 
     type: String,
     lowercase: true,
@@ -51,7 +50,6 @@ const lecturer = new Schema({
     },
     phone:{type: Number },
     address:{type:String },
-    idOfEnterprise:{type:Number},
 })
 
 

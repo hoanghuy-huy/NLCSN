@@ -29,15 +29,17 @@ class AdminController {
     showStudent(req, res, next) {
         const studentId = req.params.id;
         
-        const doc = student.find({id:studentId})
+        const doc = student.findOne({id:studentId}).populate('idInternshipObject')
           .then(student => {
             if (!student) {
-                
+              res.send('<script>alert("ID sinh vien ko tồn tại!"); window.history.back();</script>')
             } else {
-                res.render('admin/show_student', {
-                layout: 'admin',
-                student: multipleMongooseToObject(student)
-              });
+              //   res.render('admin/show_student', {
+              //   layout: 'admin',
+              //   student: multipleMongooseToObject(student)
+              // });
+              // res.json(student.idInternshipObject.idLecturer.id)
+              res.json(student)
             }
           })
           .catch(error => next(error));
@@ -141,8 +143,8 @@ class AdminController {
     //[DELETE] admin/student/:id
     deleteStudent(req, res, next) {
       student.deleteOne({id: req.params.id})
-            .then(()=> res.redirect('back'))
-            .catch(next)
+        .then(()=> res.redirect('back'))
+        .catch(next)
     }
 
     //[GET] admin/lecturers
@@ -172,20 +174,19 @@ class AdminController {
 
     //[POST] admin/lecturers/store
     saveLecturer(req, res, next) {
-      const formData = req.body
+      const formData = req.body;
       lecturer.findOne({ id: formData.id })
-      .then(existing => {
-        if (existing) {
-          res.send('<script>alert(" ID giang vien đã tồn tại!"); window.history.back();</script>');
-        } else {
-          // Sinh viên chưa tồn tại với ID tương ứng, tạo đối tượng sinh viên mới và lưu vào cơ sở dữ liệu
-          const doc = new lecturer(formData);
-          doc.save()
-            .then(() => res.redirect('/admin/lecturers'))
-            .catch(error => next(error));
-        }
-      })
-      .catch(error => next(error));
+        .then(existing => {
+            if(existing) res.send('<script>alert("ID giang viên đã tồn tại!"); window.history.back();</script>')
+            else {
+              formData.email = formData.firstName + '@ctu.edu.vn'
+              const newLecturer = new lecturer(formData)
+              newLecturer.save()
+                .then(() => res.redirect('/admin/lecturers'))
+                .catch(error => next(error));
+            }
+        })
+        .catch(error => next(error));
     }
 
     //[GET] admin/lecturers/:id/edit
@@ -201,11 +202,25 @@ class AdminController {
 
     //[PUT] /admin/lecturer/:id
     updateLecturer(req, res, next) {
-      lecturer.findOneAndUpdate({id: req.params.id},req.body)
-        .then(()=>res.redirect('/admin/lecturers'))
-        .catch((error) => {
-          res.send('<script>alert("ID giảng viên đã tồn tại!"); window.history.back();</script>');
-        });
+        const formData = req.body
+        formData.id = formData.id.toLowerCase()
+        lecturer.findOne({id:formData.id})
+          .then(doc => {
+            if(req.params.id===req.body.id) {
+                formData.email = formData.firstName + '@ctu.edu.vn'
+                lecturer.findOneAndUpdate({id:req.body.id},req.body)
+                  .then(()=>res.redirect('/admin/lecturers'))
+                  .catch(next)
+            }
+            else if(doc) res.send('<script>alert("ID giang viên đã tồn tại!"); window.history.back();</script>')
+            else {
+              formData.email = formData.firstName + '@ctu.edu.vn'
+              lecturer.findOneAndUpdate({id:req.params.id},formData)
+                .then(()=>res.redirect('/admin/lecturers'))
+                .catch(next)
+            }
+          })
+          .catch(next)
     }
 
     //[DELETE] /admin/lecturer/:id
