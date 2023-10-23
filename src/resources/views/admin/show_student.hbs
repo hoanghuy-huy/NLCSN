@@ -1,78 +1,212 @@
 <style>
-  .student-info {
-    margin-top: 50px;
-  }
+    .student-info {
+      margin-top: 50px;
+    }
   
-  .info-card {
-    background-color: #f8f9fa;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+    .info-card {
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
   
-  .info-card h6 {
-    margin-bottom: 5px;
-    color: #333;
-  }
+    .info-card h6 {
+      margin-bottom: 5px;
+      color: #333;
+    }
   
-  .right-column {
-    margin-top: 20px;
-  }
+    .right-column {
+      margin-top: 20px;
+    }
   
-  .right-column .col-sm-3 {
-    background-color: #f8f9fa;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    color: #333;
-  }
-</style>
-{{#each student}}
-<div class="container">
-  <div class="row">
-    <div class="col-sm-6">
-      <h3 class="d-flex justify-content-center" style="padding-top: 20px;" >Student Information</h3>
-      <div class="student-info">
-        <div class="info-card">
-          <h6><strong>ID:</strong> {{this.id}}  </h6>
-        </div>
-        <div class="info-card">
-          <h6><strong>Name:</strong> {{this.lastName}} {{this.firstName}}  </h6>
-        </div>
-        <div class="info-card">
-          <h6><strong>Year Of Birth:</strong> {{this.yearOfBirth}}</h6>
-        </div>
-        <div class="info-card">
-          <h6><strong>Gender:</strong> {{this.gender}}</h6>
-        </div>
-        <div class="info-card">
-          <h6><strong>Course:</strong> {{this.key}} ({{this.yearOfStudy}})</h6>
-        </div>
-        <div class="info-card">
-          <h6><strong>Email:</strong> {{this.email}}</h6>
-        </div>
-        <div class="info-card">
-          <h6><strong>Phone:</strong> {{this.phone}}</h6>
-        </div>
-        <div class="info-card">
-          <h6><strong>Address:</strong> {{this.address}}</h6>
-        </div>
-        <div class="info-card">
-          <h6><strong>Field of Study:</strong> {{this.fieldOfStudy}}</h6>
-        </div>
-        <div class="info-card">
-          <h6><strong>Class :</strong> {{this.class}}</h6>
+    .right-column .col-sm-3 {
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      color: #333;
+    }
+
+.accordion {
+  width: 100%;
+}
+
+.accordion-item {
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.accordion-header {
+  background-color: #f1f1f1;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.accordion-content {
+  padding: 10px;
+  display: none;
+}
+  </style>
+
+
+
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <h3 class="d-flex justify-content-center" style="padding-top: 20px;">Student Information</h3>
+        <div class="student-info">
+          {{#each student}}
+          <div class="info-card">
+            <h6><strong>ID:</strong> {{this.id}} </h6>
+          </div>
+          <div class="info-card">
+            <h6><strong>Name:</strong> {{this.lastName}} {{this.firstName}} </h6>
+          </div>
+          <div class="info-card">
+            <h6><strong>Year Of Birth:</strong> {{this.yearOfBirth}}</h6>
+          </div>
+          <div class="info-card">
+            <h6><strong>Gender:</strong> {{this.gender}}</h6>
+          </div>
+          <div class="info-card">
+            <h6><strong>Course:</strong> {{this.key}} ({{this.yearOfStudy}})</h6>
+          </div>
+          <div class="info-card">
+            <h6><strong>Email:</strong> {{this.email}}</h6>
+          </div>
+          <div class="info-card">
+            <h6><strong>Phone:</strong> {{this.phone}}</h6>
+          </div>
+          <div class="info-card">
+            <h6><strong>Address:</strong> {{this.address}}</h6>
+          </div>
+          <div class="info-card">
+            <h6><strong>Field of Study:</strong> {{this.fieldOfStudy}}</h6>
+          </div>
+          <div class="info-card">
+            <h6><strong>Class :</strong> {{this.class}}</h6>
+          </div>
+          {{/each}}
         </div>
       </div>
+    
+
+      
+      <div class="col-sm-6 right-column">
+        {{#each internship}}
+          <h3 style="text-align: center;">Internship Information</h3>
+        <div class="student-info">
+            <div class="accordion">
+              <div class="accordion-item">
+                <div class="accordion-header">
+                  Internship Information
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                  <div>
+                    <div class="info-card">
+                      <h6><strong>ID:</strong> {{this.id}}  </h6>
+                    </div>
+                    <div class="info-card">
+                      <h6><strong>Name:</strong> {{this.topic}}  </h6>
+                    </div>
+                    <div class="info-card">
+                      <h6><strong>Email:</strong> {{this.description}}</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="accordion-item">
+                <div class="accordion-header">
+                  Lecturer Information 
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                  <div>
+                      <div class="info-card">
+                        <h6><strong>ID:</strong> {{this.idLecturer.id}}  </h6>
+                      </div>
+                      <div class="info-card">
+                        <h6><strong>Name:</strong> {{this.idLecturer.lastName}} {{this.idLecturer.firstName}}  </h6>
+                      </div>
+                      <div class="info-card">
+                        <h6><strong>Year Of Birth:</strong> {{this.idLecturer.yearOfBirth}}</h6>
+                      </div>
+                      <div class="info-card">
+                        <h6><strong>Gender:</strong> {{this.idLecturer.gender}}</h6>
+                      </div>
+                      <div class="info-card">
+                        <h6><strong>Email:</strong> {{this.idLecturer.email}}</h6>
+                      </div>
+                      <div class="info-card">
+                        <h6><strong>Phone:</strong> {{this.idLecturer.phone}}</h6>
+                      </div>
+                      <div class="info-card">
+                        <h6><strong>Address:</strong> {{this.idLecturer.address}}</h6>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="accordion-item">
+                <div class="accordion-header">
+                  Enterprise Information
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                  <div>
+                      <div class="info-card">
+                        <h6><strong>ID:</strong> {{this.idEnterprise.id}}  </h6>
+                      </div>
+                      <div class="info-card">
+                        <h6><strong>Name:</strong> {{this.idEnterprise.name}}  </h6>
+                      </div>
+                      <div class="info-card">
+                        <h6><strong>Email:</strong> {{this.idEnterprise.email}}</h6>
+                      </div>
+                      <div class="info-card">
+                        <h6><strong>Phone:</strong> {{this.idEnterprise.phone}}</h6>
+                      </div>
+                      <div class="info-card">
+                        <h6><strong>Address:</strong> {{this.idEnterprise.address}}</h6>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>             
+        </div>
+  
+        {{/each}}
+      </div>
+
     </div>
-
-    {{!-- <div class="col-sm-6 right-column">
-        <h3 style="text-align: center;">InternShip Information</h3>
-
-    </div> --}}
-
   </div>
-</div>
-{{/each}}
+
+  
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var accordionHeaders = document.querySelectorAll('.accordion-header');
+
+  accordionHeaders.forEach(function(header) {
+    header.addEventListener('click', function() {
+      var accordionItem = this.parentElement;
+      var accordionContent = accordionItem.querySelector('.accordion-content');
+      var icon = header.querySelector('i');
+
+      accordionContent.style.display = accordionContent.style.display === 'none' ? 'block' : 'none';
+
+      if (accordionContent.style.display === 'none') {
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+      } else {
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+      }
+    });
+  });
+});
+</script>

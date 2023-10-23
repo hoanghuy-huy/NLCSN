@@ -25,12 +25,10 @@ const internship = new Schema({
         get: (value) => value // Giữ lại giá trị gốc khi lấy từ cơ sở dữ liệu
       },
       description:{type:String},
-      idEnterprise: {
-        type:Object,
-      },
-      idLecturer: {
-        type:Object,
-      },
+      idEnterprise: {type: mongoose.Schema.Types.ObjectId, ref: 'enterprise' },
+      idLecturer: {type: mongoose.Schema.Types.ObjectId, ref: 'lecturer' },
+      idL:{type:String},
+      idE:{type:String}
 })
 
 

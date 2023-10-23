@@ -29,20 +29,29 @@ class AdminController {
     showStudent(req, res, next) {
         const studentId = req.params.id;
         
-        const doc = student.findOne({id:studentId}).populate('idInternshipObject')
+        student.find({id:studentId})
+          .populate('idInternshipObject')
           .then(student => {
             if (!student) {
               res.send('<script>alert("ID sinh vien ko tồn tại!"); window.history.back();</script>')
             } else {
-              //   res.render('admin/show_student', {
-              //   layout: 'admin',
-              //   student: multipleMongooseToObject(student)
-              // });
-              // res.json(student.idInternshipObject.idLecturer.id)
-              res.json(student)
+
+              internship.find({id:student[0].idInternship})
+                .populate('idLecturer')
+                .populate('idEnterprise')
+                .then(internship => {
+                    if(!internship) res.send('<script>alert("ID thuc tap ko tồn tại!"); window.history.back();</script>')
+                    else {
+                      res.render('admin/show_student', {
+                        layout: 'admin',
+                        student: multipleMongooseToObject(student),
+                        internship: multipleMongooseToObject(internship),
+                      });
+                    }
+                })
             }
           })
-          .catch(error => next(error));
+          .catch(next);
   }
 
 
@@ -329,6 +338,8 @@ class AdminController {
       res.render('admin/create_internship',{layout:"admin"})
     }
 
+
+
     saveInternship(req, res, next) {
       const formData = req.body;
       internship.findOne({ id: formData.id })
@@ -342,33 +353,24 @@ class AdminController {
               .then(foundLecturer => {
                 if (foundLecturer) {
                   const lecturerData = {
-                    id: foundLecturer.id,
-                    lastName: foundLecturer.lastName,
-                    firstName: foundLecturer.firstName,
-                    yearOfBirth: foundLecturer.yearOfBirth,
-                    yearOfStudy: foundLecturer.yearOfStudy,
-                    gender: foundLecturer.gender,
-                    email: foundLecturer.email,
-                    phone: foundLecturer.phone,
-                    address: foundLecturer.address,
-                    idOfEnterprise: foundLecturer.idOfEnterprise
+                    _id: foundLecturer._id,
+                    id:foundLecturer.id
                   }
                   enterprise.findOne({id:idEnterprise})
                     .then(enterprise => {
                       if(enterprise) {
                         const enterpriseData = {
-                          id: enterprise.id,
-                          name: enterprise.name,
-                          phone: enterprise.phone,
-                          address: enterprise.address,
-                          email:enterprise.email,
+                          _id: enterprise._id,
                         }
                         const newInternship = new internship({
                           id: formData.id,
+                          idE:enterprise.id,
+                          idL:foundLecturer.id,
                           topic: formData.topic,
                           description: formData.description,
                           idLecturer: lecturerData,
                           idEnterprise: enterpriseData,
+
                         });
                         newInternship.save()
                           .then(() => res.redirect('/admin/internships'))
@@ -389,8 +391,7 @@ class AdminController {
         })
         .catch(error => next(error));
     }
-
-
+    
     editInternship(req, res, next) {
       const id = req.params.id;
         internship.find({id:id})
@@ -403,25 +404,30 @@ class AdminController {
     }
 
     updateInternship(req, res, next) {
-      const idLecturer = req.body['idLecturer.id']
-      const idEnterprise = req.body['idEnterprise.id']
+      const formData = req.body
+      const idLecturer = req.body.idL
+      const idEnterprise = req.body.idE
         internship.findOne({id:req.body.id})
           .then(doc =>{
               if(req.body.id===req.params.id){
                 lecturer.findOne({id:idLecturer})
-                  .then(lecturer => {
-                    if(!lecturer) res.send('<script>alert("ID giảng viên không tồn tại!"); window.history.back();</script>');
+                  .then(foundLecturer => {
+                    if(!foundLecturer) res.send('<script>alert("ID giảng viên không tồn tại!"); window.history.back();</script>');
                     else 
                     {
                         enterprise.findOne({id:idEnterprise})
                           .then(enterprise => {
                             if(!enterprise) res.send('<script>alert("ID doanh nghiep không tồn tại!"); window.history.back();</script>')
                             else {
+                                formData.idEnterprise = enterprise._id
+                                formData.idLecturer = foundLecturer._id
                                 internship.findOneAndUpdate({id: req.params.id} , req.body)
                                 .then(() => res.redirect('/admin/internships'))
                                 .catch((error) => {
                                   res.send('error update internship');
                                 });
+
+
                             }
                           })
                     }
