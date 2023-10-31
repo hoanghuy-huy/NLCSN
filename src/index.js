@@ -7,8 +7,20 @@ const path = require('path');
 const route = require('./routes')
 const db = require('./config/db')
 const  methodOverride = require('method-override')
+const flash = require('express-flash');
+const session = require('express-session');
 
 
+
+// Middleware session và flash
+app.use(session({
+  secret: 'secret',
+  saveUninitialized: true
+}));
+app.use(flash());
+
+
+app.use(flash());
 // HTTP
 app.use(morgan('combined'));
 

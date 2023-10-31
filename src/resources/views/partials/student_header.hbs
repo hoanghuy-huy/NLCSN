@@ -1,19 +1,41 @@
-
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/student">Student</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link text-light" href="/student/form">Form</a>
-          </li>
-        </ul>
-      </div>        
-
-      </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/student">Student</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-light" href="/student/form">Form</a>
+        </li>
+      </ul>
     </div>
-  </nav>  
 
+    <!-- Thêm hình ảnh hình tròn -->
+    <a class="profile-link" href="/profile">
+      <div class="profile-image">
+        <img src="">
+      </div>
+    </a>
+  </div>
+</nav>
+
+<style>
+  .profile-link {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  text-decoration: none;
+}
+
+.profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-image: url('path-to-profile-image.jpg');
+  background-size: cover;
+  background-position: center;
+  margin-left: 10px;
+}
+</style>

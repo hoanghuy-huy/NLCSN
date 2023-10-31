@@ -3,7 +3,7 @@ const router = express.Router()
 const studentController = require('../app/controllers/StudentController')
 
 
-router.post('/store', studentController.store)
+router.post('/form/store', studentController.createLetter)
 router.get('/form', studentController.form)
 
 // home student

@@ -1,52 +1,80 @@
 <style>
-a {
-  text-decoration: none;
-  color: #333;
-}
+  a {
+    text-decoration: none;
+    color: #333;
+  }
 </style>
-
 
 <div class="container mt-3">
   <h2>Danh Sách Sinh Viên</h2>
+
+  <div>
+    <!-- Thanh tìm kiếm -->
+  <div class="row">
+    <div class="col-md-6">
+      <input type="text" id="searchInput" placeholder="Tìm kiếm..." class="form-control mt-3">
+    </div>
+    <div class="col-md-3">
+      <!-- Lọc theo khóa -->
+      <select id="keyFilter" class="form-select mt-3">
+        <option value="">Tất cả khóa</option>
+        <option value="45">K45</option>
+        <option value="46">K46</option>
+        <option value="47">K47</option>
+        <!-- Thêm các khóa khác nếu cần -->
+      </select>
+    </div>
+    <div class="col-md-3">
+      <!-- Lọc theo chuyên ngành -->
+      <select id="majorFilter" class="form-select mt-3">
+        <option value="">Tất cả chuyên ngành</option>
+        <option value="cong nghe thong tin">Công Nghệ Thông Tin</option>
+        <option value="khoa hoc may tinh">Khoa học máy tính</option>
+        <option value="ngoai ngu">Ngoại ngữ</option>
+        <!-- Thêm các chuyên ngành khác nếu cần -->
+      </select>
+    </div>
+  </div>
+  </div>
+
+
   <table class="table table-hover" href="students/{{this.id}}">
     <thead>
       <tr>
         <th>Tên Sinh Viên</th>
         <th>Mã Số Sinh Viên</th>
         <th>Khóa</th>
+        <th>Ngành Học</th>
         <th>Xử Lý</th>
       </tr>
     </thead>
     <tbody>
       {{#each students}}
       <tr>
-        <td><a style="text-decoration" href="students/{{this.id}}">{{this.firstName}}</a></td>
+        <td><a style="text-decoration" href="students/{{this.id}}">{{this.lastName}} {{this.firstName}}</a></td>
         <td>{{this.id}}</td>
         <td>{{this.key}}</td>
+        <td>{{this.fieldOfStudy}}</td>
         <td>
-            <a href="/admin/students/{{this.id}}/edit" class="btn btn-primary">Edit</a>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-student-modal" data-id="{{this.id}}">Delete</button>
-            
-
-            
+          <a href="/admin/students/{{this.id}}/edit" class="btn btn-primary">Edit</a>
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-student-modal" data-id="{{this.id}}">Delete</button>
+        </td>
       </tr>
       {{/each}}
     </tbody>
   </table>
 </div>
 
-
-
 <!-- Modal -->
 <div class="modal fade" id="delete-student-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete student ?</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete student?</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          Delete
+        Delete
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -56,30 +84,95 @@ a {
   </div>
 </div>
 
-{{!-- Delete hidden form--}}
+<!-- Delete hidden form-->
 <form name="delete-student-form" method="POST"></form>
-
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var deleteStudentModal = document.getElementById('delete-student-modal')
-    var btnDeleteStudent = document.getElementById('btn-delete-student')
-    var deleteForm = document.forms['delete-student-form']
-    var studentId
+    var deleteStudentModal = document.getElementById('delete-student-modal');
+    var btnDeleteStudent = document.getElementById('btn-delete-student');
+    var deleteForm = document.forms['delete-student-form'];
+    var studentId;
 
-    if ( deleteStudentModal) {
+    if (deleteStudentModal) {
       deleteStudentModal.addEventListener('show.bs.modal', event => {
-
-        var button = event.relatedTarget
-
-        studentId = button.getAttribute('data-id')
-
-  
-      })
+        var button = event.relatedTarget;
+        studentId = button.getAttribute('data-id');
+      });
     }
-    btnDeleteStudent.onclick = function () {
-      deleteForm.action = '/admin/students/' + studentId +'?_method=DELETE'
-      deleteForm.submit()
+
+    btnDeleteStudent.onclick = function() {
+      deleteForm.action = '/admin/students/' + studentId + '?_method=DELETE';
+      deleteForm.submit();
+    };
+
+  var searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', function() {
+  var input = this.value.toLowerCase();
+  var keywords = input.split(" ");
+
+  var table = document.querySelector('.table');
+  var rows = table.getElementsByTagName('tr');
+
+  for (var i = 1; i < rows.length; i++) {
+    var name = rows[i].getElementsByTagName('td')[0].innerText.toLowerCase();
+    var id = rows[i].getElementsByTagName('td')[1].innerText.toLowerCase();
+    var key = rows[i].getElementsByTagName('td')[2].innerText.toLowerCase();
+    var majors = rows[i].getElementsByTagName('td')[3].innerText.toLowerCase();
+
+    var match = true;
+    for (var j = 0; j < keywords.length; j++) {
+      if (!(name.includes(keywords[j]) || id.includes(keywords[j]) || key.includes(keywords[j]) || majors.includes(keywords[j]))) {
+        match = false;
+        break;
+      }
     }
-  })
+
+    if (match) {
+      rows[i].style.display = '';
+    } else {
+      rows[i].style.display = 'none';
+    }
+  }
+  });
+
+   var keyFilter = document.getElementById('keyFilter');
+  var majorFilter = document.getElementById('majorFilter');
+
+  var filterRows = function() {
+    var input = searchInput.value.toLowerCase();
+    var key = keyFilter.value.toLowerCase();
+    var major = majorFilter.value.toLowerCase();
+    var keywords = input.split(" ");
+
+    var table = document.querySelector('.table');
+    var rows = table.getElementsByTagName('tr');
+
+    for (var i = 1; i < rows.length; i++) {
+      var name = rows[i].getElementsByTagName('td')[0].innerText.toLowerCase();
+      var id = rows[i].getElementsByTagName('td')[1].innerText.toLowerCase();
+      var studentKey = rows[i].getElementsByTagName('td')[2].innerText.toLowerCase();
+      var majors = rows[i].getElementsByTagName('td')[3].innerText.toLowerCase();
+
+      var match = true;
+      for (var j = 0; j < keywords.length; j++) {
+        if (!(name.includes(keywords[j]) || id.includes(keywords[j]) || studentKey.includes(keywords[j]) || majors.includes(keywords[j]))) {
+          match = false;
+          break;
+        }
+      }
+
+      if (match && (key === '' || studentKey === key) && (major === '' || majors.includes(major))) {
+        rows[i].style.display = '';
+      } else {
+        rows[i].style.display = 'none';
+      }
+    }
+  };
+
+  searchInput.addEventListener('input', filterRows);
+  keyFilter.addEventListener('change', filterRows);
+  majorFilter.addEventListener('change', filterRows);
+
+  });
 </script>

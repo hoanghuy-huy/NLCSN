@@ -7,7 +7,7 @@ const siteRouter = require('./site')
 function route(app) {
 
 
-   app.use('/site',siteRouter)
+
    app.use('/student', studentRouter)
    app.use('/admin', adminRouter)
    app.use('/', siteRouter)
