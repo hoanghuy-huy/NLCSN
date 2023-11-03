@@ -1,41 +1,50 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/student">Student</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link text-light" href="/student/form">Form</a>
-        </li>
-      </ul>
-    </div>
+<div class="header">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/student">Student</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <!-- Thêm hình ảnh hình tròn -->
-    <a class="profile-link" href="/profile">
-      <div class="profile-image">
-        <img src="">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link text-light" href="/student/form">Form</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <div class="avatar">
+              <img id="avatar-img" src="https://files.fullstack.edu.vn/f8-prod/user_photos/344228/64c3d6052a983.jpg" alt="">
+            </div>
+          </li>
+        </ul>
       </div>
-    </a>
-  </div>
-</nav>
+    </div>
+  </nav>
+</div>
 
 <style>
-  .profile-link {
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-  text-decoration: none;
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin-left: 4px;
+  overflow: hidden;
+  cursor: pointer;
 }
 
-.profile-image {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-image: url('path-to-profile-image.jpg');
-  background-size: cover;
-  background-position: center;
-  margin-left: 10px;
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>
+
+<script>
+  var avatarImg = document.getElementById('avatar-img');
+  avatarImg.addEventListener('click', function() {
+    window.location.href = '/user/profile';
+  });
+</script>

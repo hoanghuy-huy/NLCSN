@@ -1,17 +1,17 @@
 
 const studentRouter = require('./student')
 const adminRouter = require('./admin')
-const siteRouter = require('./site')
 
+const authRouter = require('./auth')
+const userRouter = require('./user')
 
 function route(app) {
 
-
-
+   app.use('/user',userRouter)
+   
    app.use('/student', studentRouter)
    app.use('/admin', adminRouter)
-   app.use('/', siteRouter)
- 
+   app.use('/',authRouter)
 }
 
 module.exports = route

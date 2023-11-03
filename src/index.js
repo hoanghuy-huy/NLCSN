@@ -9,8 +9,16 @@ const db = require('./config/db')
 const  methodOverride = require('method-override')
 const flash = require('express-flash');
 const session = require('express-session');
+const cors = require('cors')
+const dotenv = require('dotenv')
+const cookieParser = require('cookie-parser')
 
 
+app.use(cors())
+
+app.use(cookieParser())
+
+  
 
 // Middleware session và flash
 app.use(session({
@@ -58,7 +66,7 @@ app.set('views', path.join(__dirname,'resources','views'))
 app.use(express.static(path.join(__dirname,'public')))
 
 
-
+// json web token
 
 // routes init
 route(app)
