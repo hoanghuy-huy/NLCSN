@@ -1,26 +1,31 @@
-<header>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<!-- Thêm đoạn mã sau vào phần head của trang web để tải thư viện Bootstrap -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand text-light" href="/admin">ADMIN</a>
+    <a class="navbar-brand" href="/admin">ADMIN</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link text-light" href="/admin/students">Students</a>
+          <a class="nav-link" href="/admin/students">Students</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="/admin/lecturers">Lectures</a>
+          <a class="nav-link" href="/admin/lecturers">Lectures</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="/admin/enterprises">Enterprise</a>
+          <a class="nav-link" href="/admin/enterprises">Enterprise</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="/admin/internships">Internship</a>
+          <a class="nav-link" href="/admin/internships">Internship</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Create
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -33,19 +38,17 @@
       </ul>
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link text-light" id="logout-link">Log out</a>
+          <a class="nav-link" id="logout-link">Log out</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
-</header>
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
+  // Thêm sự kiện click cho nút responsive để toggle lớp "show" của navbar-collapse
 
 document.getElementById("logout-link").addEventListener("click", function(event) {
     event.preventDefault();
@@ -60,12 +63,47 @@ function clearLocalStorage() {
 </script>
 
 <style>
-.navbar-nav {
-  display: flex;
-  align-items: center;
+.navbar {
+  background-color: #343a40;
+  padding: 10px;
 }
 
-.navbar-nav > li:last-child {
-  margin-left: auto;
+.navbar-brand,
+.navbar-nav .nav-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-toggler {
+  border: none;
+  background-color: transparent;
+  color: #fff;
+}
+
+.navbar-toggler:focus {
+  outline: none;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #343a40;
+  padding: 0;
+  margin-top: 2px;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-item {
+  color: #fff;
+  padding: 8px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-item:hover {
+  background-color: #495057;
 }
 </style>

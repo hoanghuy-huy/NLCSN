@@ -43,7 +43,44 @@ class StudentController {
             return res.status(500).json({message:'Internal Server Error'})
         }
     }
-    
+        //[POST] student/add-student
+    async create(req, res, next) {
+        try {
+            const { id, lastName, firstName, yearOfBirth, yearOfStudy, Class, gender, majors, email, address } = req.body;
+            const existingStudent = await Student.findOne({ id: id });
+        
+            if (existingStudent) {
+            return res.status(401).json({ message: 'ID already exists' });
+            }
+        
+            const key = yearOfStudy - 1974;
+            const newStudent = new Student({ id, lastName, firstName, yearOfBirth, yearOfStudy, Class, gender, majors, email, address });
+            await newStudent.save();
+        
+            return res.status(200).json({ message: 'Create student successfully' });
+        } catch (error) {
+            return res.status(500).json({ message: 'Internal server error' });
+        }
+    }
+
+    //[POST] student/edit-student
+    async edit(req, res, next) {
+        try {
+            const { studentId } = req.params;
+            const { lastName, firstName, yearOfBirth, yearOfStudy, Class, gender, majors, address } = req.body;
+            const key = yearOfStudy - 1974;
+            
+            const updateStudent = await Student.findOneAndUpdate(
+                { id: studentId },
+                { lastName, firstName, yearOfBirth, yearOfStudy, Class, gender, majors, address, key },
+                { new: true } // Thêm option { new: true } để trả về dữ liệu sau khi được cập nhật
+            );
+            
+            return res.status(200).json({ message: 'Edited student', updateStudent });
+            } catch (error) {
+            return res.status(500).json({ message: 'Internal server error' });
+            }
+    }
 }
 
 module.exports = new StudentController
