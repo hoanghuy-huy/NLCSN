@@ -12,11 +12,16 @@ const session = require('express-session');
 const cors = require('cors')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
+const axios = require('axios')
+const bodyParser = require('body-parser');
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(cors())
 
 app.use(cookieParser())
+
 
   
 

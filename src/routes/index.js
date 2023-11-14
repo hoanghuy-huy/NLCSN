@@ -4,13 +4,12 @@ const adminRouter = require('./admin')
 
 const authRouter = require('./auth')
 const userRouter = require('./user')
-
+const lecturerRouter = require('./lecturer')
 function route(app) {
-
-   app.use('/user',userRouter)
-   
+   app.use('/lecturer',lecturerRouter)
    app.use('/student', studentRouter)
    app.use('/admin', adminRouter)
+   app.use('/api/users',userRouter)
    app.use('/',authRouter)
 }
 

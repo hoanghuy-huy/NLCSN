@@ -13,11 +13,15 @@
           </li>
         </ul>
 
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav">
           <li class="nav-item">
-            <div class="avatar">
-              <img id="avatar-img" src="https://files.fullstack.edu.vn/f8-prod/user_photos/344228/64c3d6052a983.jpg" alt="">
-            </div>
+            <a class="nav-link text-light" href="/student/profile">Profile</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link text-light" id="logout-link">Log out</a>
           </li>
         </ul>
       </div>
@@ -25,26 +29,20 @@
   </nav>
 </div>
 
-<style>
-.avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  margin-left: 4px;
-  overflow: hidden;
-  cursor: pointer;
-}
 
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-</style>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
-  var avatarImg = document.getElementById('avatar-img');
-  avatarImg.addEventListener('click', function() {
-    window.location.href = '/user/profile';
-  });
+
+document.getElementById("logout-link").addEventListener("click", function(event) {
+    event.preventDefault();
+    clearLocalStorage();
+    window.location.href = "/";
+});
+
+function clearLocalStorage() {
+  // Xóa tất cả dữ liệu trong Local Storage
+  localStorage.clear();
+}
 </script>
+

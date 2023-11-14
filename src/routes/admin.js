@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const adminController = require('../app/controllers/AdminController')
-
+const middlewareController = require('../app/controllers/middlewareController')
 router.delete('/internships/:id',adminController.deleteInternship)
 router.put('/internships/:id',adminController.updateInternship)
 router.get('/internships/:id/edit',adminController.editInternship)

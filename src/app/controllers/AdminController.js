@@ -103,8 +103,6 @@ class AdminController {
  
     }
 
-
-
   
     updateStudent(req, res, next) {
         const formData = req.body
