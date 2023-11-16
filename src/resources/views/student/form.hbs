@@ -118,35 +118,38 @@
       <div class="column">
           <div class="input-box">
             <label>Id</label>
-            <input required=""  type="text" name="id" id="id">
+            <input required=""  type="text" name="id" id="student-id">
           </div>
           <div class="input-box">
             <label>First name</label>
-            <input required=""  type="text" name="fistName" id="firstName">
+            <input required=""  type="text" name="fistName" id="student-first-name">
           </div>
           <div class="input-box">
             <label>Last name</label>
-            <input required="" type="text" name="lastName" id="lastName">
+            <input required="" type="text" name="lastName" id="student-last-name">
           </div>
       </div>
       <div class="column">
           <div class="input-box">
             <label>Class</label>
-            <input required="" type="text" name="class" id="class">
+            <input required="" type="text" name="class" id="student-class">
           </div>
-          <div class="input-box">
-            <label>Majors</label>
-            <input required="" type="text" name="majors" id="majors">
-          </div>
+
           <div class="input-box">
             <label>Course</label>
-            <input required=""  type="text" name="key" id="key">
+            <input required=""  type="text" name="key" id="student-key">
           </div>
       </div>
+
+      <div class="input-box">
+        <label>Majors</label>
+        <input required="" type="text" name="majors" id="student-majors">
+      </div>
+
       <div class="column">
         <div class="input-box">
           <label>Birth Date</label>
-          <input required="" type="date" id="birthDay">
+          <input required="" type="date" id="">
         </div>
       </div> 
       <div class="gender-box">
@@ -175,4 +178,31 @@
     </form>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+// Gọi yêu cầu Ajax để lấy dữ liệu từ máy chủ
+const data = localStorage.getItem('userData');
+const dateUser = JSON.parse(data);
+
+axios.get(`http://localhost:3000/student/get-one/${dateUser.username}`)
+  .then(function (response) {
+    const student = response.data;
+    const id = student.id
+    const firstName = student.firstName
+    // Cập nhật thông tin trong phần tử HTML
+    document.getElementById('student-id').value = student.id;
+    document.getElementById('student-first-name').value = student.firstName;
+    document.getElementById('student-last-name').value = student.lastName;
+    document.getElementById('student-key').value = student.key;
+    document.getElementById('student-class').value = student.Class;
+    document.getElementById('student-majors').value = student.majors;
+
+  })
+  .catch(function (error) {
+    console.error(error);
+  });
+
+
+</script>
 

@@ -1,3 +1,52 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+<style>
+.navbar {
+  background-color: #343a40;
+  padding: 10px;
+}
+
+.navbar-brand,
+.navbar-nav .nav-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-toggler {
+  border: none;
+  background-color: transparent;
+  color: #fff;
+}
+
+.navbar-toggler:focus {
+  outline: none;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #343a40;
+  padding: 0;
+  margin-top: 2px;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-item {
+  color: #fff;
+  padding: 8px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-item:hover {
+  background-color: #495057;
+}
+</style>
+</style>
 <div class="header">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -8,9 +57,16 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link text-light" href="/student/form">Form</a>
-          </li>
+          
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Internship 
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li class="nav-item"><a class="nav-link text-light" href="/student/form">referral latter</a></li>
+            <li class="nav-item"><a class="nav-link text-light" href="/student/internship">Internship</a></li>
+          </ul>
+        </li> 
         </ul>
 
         <ul class="navbar-nav">
@@ -18,10 +74,10 @@
             <a class="nav-link text-light" href="/student/profile">Profile</a>
           </li>
         </ul>
-
+ 
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link text-light" id="logout-link">Log out</a>
+            <a  class="nav-link text-light " id="logout-link"><button type="button" class="btn btn-danger">Log Out</button></a>
           </li>
         </ul>
       </div>
@@ -44,5 +100,7 @@ function clearLocalStorage() {
   // Xóa tất cả dữ liệu trong Local Storage
   localStorage.clear();
 }
+
+
 </script>
 

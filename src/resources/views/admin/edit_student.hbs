@@ -241,34 +241,32 @@
                 
 
                 <label>
-                    <input required="" placeholder="" value="{{this.class}}" type="text" class="input" name="class" id="class">
+                    <input required="" placeholder="" value="{{this.Class}}" type="text" class="input" name="class" id="class">
                     <span>class</span>
                 </label> 
                         
                 <label>
-                    <input required="" type="text" placeholder="" value="{{this.gender}}" class="input" name="gender" id="gender">
-                    <span>gender</span>
+                    <select required="" class="input" name="gender" id="gender">
+                        <option value="" disabled selected>Select gender</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                    </select>
                 </label>
         
                 <label>
-                    <input required="" placeholder="" value="{{this.fieldOfStudy}}" type="text" class="input" name="fieldOfStudy" id="fieldOfStudy">
-                    <span>majors</span>
-                </label> 
+                    <select required="" class="input" name="majors" id="majors">
+                        <option value="" disabled selected>Select majors</option>
+                        <option value="Công Nghệ Thông Tin">Công Nghệ Thông Tin</option>
+                        <option value="Khoa Học Máy Tin">Khoa Học Máy Tính</option>
+                        <option value="Kinh Tế">Kinh Tế</option>
+                    </select>
+                </label>
 
                 <label>
                     <input required="" type="text" placeholder="" value="{{this.address}}" class="input" name="address" id="address">
                     <span>address</span>
                 </label>
 
-                <label>
-                    <input required="" type="text" placeholder="" value="{{this.phone}}" class="input" name="phone" id="phone">
-                    <span>contact number</span>
-                </label>
-
-                <label>
-                    <input required="" type="text" placeholder="" value="{{this.idInternship}}" class="input" name="idInternship" id="idInternship">
-                    <span>id internship</span>
-                </label>
 
                 <button class="fancy" type="submit">
                 <span class="top-key"></span>

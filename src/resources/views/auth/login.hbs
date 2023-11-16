@@ -37,13 +37,13 @@
         localStorage.setItem("userData", JSON.stringify(userData));
 
         const user = userData;
-        if (user.admin === true) {
+          if (user.admin === true) {
           // Gán token vào header khi chuyển hướng đến trang admin
-          axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-          window.location.href = "/admin";
+           axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+           window.location.href = "/admin";
         } else {
           // Gán token vào header khi chuyển hướng đến trang student
-          axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+          axios.defaults.headers.common["Authorization"] = `Bearer  ${accessToken}`;
           window.location.href = "/student";
         }
       })

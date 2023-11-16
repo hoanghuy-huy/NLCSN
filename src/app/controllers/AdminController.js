@@ -4,7 +4,7 @@ const student = require('../models/student')
 const lecturer = require('../models/lecturer');
 const enterprise = require('../models/enterprise')
 const internship = require('../models/internship')
-
+const uuid = require('uuid')
 
 class AdminController {
     
@@ -27,32 +27,32 @@ class AdminController {
     }
 
     showStudent(req, res, next) {
-        const studentId = req.params.id;
+        // const studentId = req.params.id;
         
-        student.find({id:studentId})
-          .populate('idInternshipObject')
-          .then(student => {
-            if (!student) {
-              res.send('<script>alert("ID sinh vien ko tồn tại!"); window.history.back();</script>')
-            } else {
+        // student.find({id:studentId})
+        //   .populate('idInternshipObject')
+        //   .then(student => {
+        //     if (!student) {
+        //       res.send('<script>alert("ID sinh vien ko tồn tại!"); window.history.back();</script>')
+        //     } else {
 
-              internship.find({id:student[0].idInternship})
-                .populate('idLecturer')
-                .populate('idEnterprise')
-                .then(internship => {
-                    if(!internship) res.send('<script>alert("ID thuc tap ko tồn tại!"); window.history.back();</script>')
-                    else {
-                      res.render('admin/show_student', {
-                        layout: 'admin',
-                        student: multipleMongooseToObject(student),
-                        internship: multipleMongooseToObject(internship),
-                      });
-                    }
-                })
-            }
-          })
-          .catch(next);
-  }
+        //       internship.find({id:student[0].idInternship})
+        //         .populate('idLecturer')
+        //         .populate('idEnterprises')
+        //         .then(internship => {
+        //             if(!internship) res.send('<script>alert("ID thuc tap ko tồn tại!"); window.history.back();</script>')
+        //             else {
+        //               res.render('admin/show_student', {
+        //                 layout: 'admin',
+        //                 student: multipleMongooseToObject(student),
+        //                 internship: multipleMongooseToObject(internship),
+        //               });
+        //             }
+        //         })
+        //     }
+        //   })
+        //   .catch(next);
+        } 
 
 
     //[GET] admin/student/create  
@@ -62,34 +62,52 @@ class AdminController {
   
 
 
-    saveStudent(req, res, next) {
-      const formData = req.body;
-      student.findOne({ id: formData.id })
-        .then(existing => {
-          if (existing) {
-             res.send('<script>alert("ID sinh vien đã tồn tại!"); window.history.back();</script>');
-          } else {             
-            internship.findOne({ id: formData.idInternship })
-              .then(foundInternship => {
-                if (!foundInternship) {
-                  res.send('<script>alert("ID thực tập không tồn tại!"); window.history.back();</script>');
-                } else {
-                  const id = new mongoose.Types.ObjectId(foundInternship._id)
-                  formData.idInternshipObject = id
-                  formData.email = formData.firstName + formData.id + '@student.ctu.edu.vn'
-                  formData.key = formData.yearOfStudy - 1974
-                  const newStudent = new student(formData)
-                  newStudent.save()
-                  .then(() => res.redirect('/admin/students'))
-                  .catch(error => next(error));
-                }
-              })
-              .catch(error => next(error));
-          }
-        })
-        .catch(error => next(error));
+    // saveStudent(req, res, next) {
+    //   const formData = req.body;
+    //   student.findOne({ id: formData.id })
+    //     .then(existing => {
+    //       if (existing) {
+    //          res.send('<script>alert("ID sinh vien đã tồn tại!"); window.history.back();</script>');
+    //       } else {             
+    //         internship.findOne({ id: formData.idInternship })
+    //           .then(foundInternship => {
+    //             if (!foundInternship) {
+    //               res.send('<script>alert("ID thực tập không tồn tại!"); window.history.back();</script>');
+    //             } else {
+    //               const id = new mongoose.Types.ObjectId(foundInternship._id)
+    //               formData.idInternshipObject = id
+    //               formData.email = formData.firstName + formData.id + '@student.ctu.edu.vn'
+    //               formData.key = formData.yearOfStudy - 1974
+    //               const newStudent = new student(formData)
+    //               newStudent.save()
+    //               .then(() => res.redirect('/admin/students'))
+    //               .catch(error => next(error));
+    //             }
+    //           })
+    //           .catch(error => next(error));
+    //       }
+    //     })
+    //     .catch(error => next(error));
+    // }
+    async saveStudent(req, res, next) {
+      try {
+        const { id, lastName, firstName, yearOfBirth, yearOfStudy, Class, gender, majors, email, address} = req.body;
+        const existingStudent = await student.findOne({ id: id });
+    
+        if (existingStudent) {
+          return  res.send('<script>alert("ID already exists"); window.history.back();</script>');
+        }
+    
+        const key = yearOfStudy - 1974;
+        const newStudent = new student({ id, lastName, firstName, yearOfBirth, yearOfStudy, Class, gender, majors, email, address, key });
+        await newStudent.save();
+    
+        return  res.redirect('/admin/students')
+      } catch (error) {
+        return res.send('<script>alert("Internal error server"); window.history.back();</script>');
+      }
     }
-  
+
     //{GET} admin/student/:id/edit
     editStudent(req, res, next) {
       const studentId = req.params.id;
@@ -104,47 +122,30 @@ class AdminController {
     }
 
   
-    updateStudent(req, res, next) {
-        const formData = req.body
-        student.findOne({id:req.body.id})
-          .then(doc => {
-            if(req.params.id === req.body.id){
-              internship.findOne({id:req.body.idInternship})
-                .then(existing=> {
-                    if(!existing) res.send('<script>alert("ID thực tập ko tồn tại!"); window.history.back();</script>')
-                    else {
-                      const id = new mongoose.Types.ObjectId(existing._id)
-                      formData.idInternshipObject = id
-                      formData.email = formData.firstName + formData.id + '@student.ctu.edu.vn'
-                      formData.key = formData.yearOfStudy - 1974
-                      student.findOneAndUpdate({id: req.params.id} , req.body)
-                        .then(() => res.redirect('/admin/students'))
-                        .catch((error) => {
-                          res.send('error update internship');
-                        });
-                    }
-                })
-            }
-            else if(doc) res.send('<script>alert("ID sinh viên đã tồn tại!"); window.history.back();</script>')
-            else {
-              internship.findOne({id:req.body.idInternship})
-                .then(existing=> {
-                    if(!existing) res.send('<script>alert("ID thực tập ko tồn tại!"); window.history.back();</script>')
-                    else {
-                      const id = new mongoose.Types.ObjectId(existing._id)
-                      formData.idInternshipObject = id
-                      formData.email = formData.firstName + formData.id + '@student.ctu.edu.vn'
-                      formData.key = formData.yearOfStudy - 1974
-                      student.findOneAndUpdate({id: req.params.id} , req.body)
-                        .then(() => res.redirect('/admin/students'))
-                        .catch((error) => {
-                          res.send('error update internship');
-                        });
-                    }
-                })
-            }
-          })
-          .catch(next)
+    async updateStudent(req, res, next) {
+      try {
+        const { idStudent } = req.params
+        const { id,lastName, firstName, yearOfBirth, yearOfStudy, Class, gender, majors, address } = req.body;
+        const key = yearOfStudy - 1974;
+        if(idStudent != id ){
+         const doc = await student.findOne({id:id})
+         if(doc) return res.send('<script>alert("ID already exists"); window.history.back();</script>');
+          const updateStudent = await student.findOneAndUpdate(
+            { id: id },
+            { lastName, firstName, yearOfBirth, yearOfStudy, Class, gender, majors, address, key },
+          );
+        
+          return  res.redirect('/admin/students')
+        }
+        const updateStudent = await student.findOneAndUpdate(
+          { id: id },
+          { lastName, firstName, yearOfBirth, yearOfStudy, Class, gender, majors, address, key },
+        );
+      
+        return  res.redirect('/admin/students')
+      } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' });
+      }
     }
 
     //[DELETE] admin/student/:id
@@ -338,58 +339,34 @@ class AdminController {
 
 
 
-    saveInternship(req, res, next) {
-      const formData = req.body;
-      internship.findOne({ id: formData.id })
-        .then(existing => {
-          if (existing) {
-            res.send('<script>alert("ID thực tập đã tồn tại!"); window.history.back();</script>');
-          } else {
-            const idLecturer = formData.idLecturer
-            const idEnterprise = formData.idEnterprise;
-            lecturer.findOne({ id: idLecturer }) // Sử dụng phương thức lean() ở đây
-              .then(foundLecturer => {
-                if (foundLecturer) {
-                  const lecturerData = {
-                    _id: foundLecturer._id,
-                    id:foundLecturer.id
-                  }
-                  enterprise.findOne({id:idEnterprise})
-                    .then(enterprise => {
-                      if(enterprise) {
-                        const enterpriseData = {
-                          _id: enterprise._id,
-                        }
-                        const newInternship = new internship({
-                          id: formData.id,
-                          idE:enterprise.id,
-                          idL:foundLecturer.id,
-                          topic: formData.topic,
-                          description: formData.description,
-                          idLecturer: lecturerData,
-                          idEnterprise: enterpriseData,
+   async saveInternship(req, res, next) {
+        const { title, description, startDate , endDate, idStudent, idEnterprises, idLecturer} = req.body
+        const id = uuid.v4()
+        const docStudent = await student.findOne({id:idStudent})
+        if(!docStudent) return res.send('<script>alert("Student not found"); window.history.back();</script>')
+        const docLecturer = await lecturer.findOne({id:idLecturer})
+        if(!docLecturer) return res.send('<script>alert("Lecturer not found"); window.history.back();</script>')
+        const docEnterprises = await enterprise.findOne({id:idEnterprises})
+        if(!docEnterprises) return res.send('<script>alert("Enterprises not found"); window.history.back();</script>')
+        const s = await internship.findOne({idStudent:idStudent}) 
+        if(s) return res.send('<script>alert("Student already exists"); window.history.back();</script>')
+        const currentDate = new Date();
+        const startDay = new Date(startDate);
+        const endDay = new Date(endDate);
 
-                        });
-                        newInternship.save()
-                          .then(() => res.redirect('/admin/internships'))
-                          .catch(error => next(error));
-
-                        
-                      }else {
-                        res.send('<script>alert("ID doanh nghiep không tồn tại!"); window.history.back();</script>');
-                      }
-                      
-                    })
-                } else {
-                  res.send('<script>alert("ID giảng viên không tồn tại!"); window.history.back();</script>');
-                }
-              })
-              .catch(next);
-          }
-        })
-        .catch(error => next(error));
+        if (startDay <= currentDate || endDay <= currentDate) {
+          return res.send('<script>alert("Start date or end date must be after current date."); window.history.back();</script>');
+        }
+      
+        if (startDay >= endDay) {
+          return res.send('<script>alert("Start date must be before end date."); window.history.back();</script>');
+        }
+        
+        const newInternship  = new internship({id, title, description, startDate , endDate, idStudent, idEnterprises, idLecturer}) 
+        await newInternship.save()
+        return res.redirect('/admin/internships')
     }
-    
+
     editInternship(req, res, next) {
       const id = req.params.id;
         internship.find({id:id})
@@ -401,60 +378,16 @@ class AdminController {
           .catch(error => next(error));  
     }
 
-    updateInternship(req, res, next) {
-      const formData = req.body
-      const idLecturer = req.body.idL
-      const idEnterprise = req.body.idE
-        internship.findOne({id:req.body.id})
-          .then(doc =>{
-              if(req.body.id===req.params.id){
-                lecturer.findOne({id:idLecturer})
-                  .then(foundLecturer => {
-                    if(!foundLecturer) res.send('<script>alert("ID giảng viên không tồn tại!"); window.history.back();</script>');
-                    else 
-                    {
-                        enterprise.findOne({id:idEnterprise})
-                          .then(enterprise => {
-                            if(!enterprise) res.send('<script>alert("ID doanh nghiep không tồn tại!"); window.history.back();</script>')
-                            else {
-                                formData.idEnterprise = enterprise._id
-                                formData.idLecturer = foundLecturer._id
-                                internship.findOneAndUpdate({id: req.params.id} , req.body)
-                                .then(() => res.redirect('/admin/internships'))
-                                .catch((error) => {
-                                  res.send('error update internship');
-                                });
+    async updateInternship(req, res, next) {
+        const { id } = req.params
+        const Internship = req.body
+        const idLecturer = await lecturer.findOne({id:Internship.idLecturer})
+        if(!idLecturer) return res.send('<script>alert("Lecturer not found."); window.history.back();</script>')
+        const idEnterprises = await enterprise.findOne({id:Internship.idEnterprises})
+        if(!idEnterprises) return res.send('<script>alert("Enterprises not found."); window.history.back();</script>')
+        const update = await internship.findOneAndUpdate({id:id},req.body)
+        return res.redirect('/admin/internships')
 
-
-                            }
-                          })
-                    }
-                  })
-              }else if(doc) {
-                res.send('<script>alert("ID thực tập đã tồn tại!"); window.history.back();</script>')
-              }else {
-                lecturer.findOne({id:idLecturer})
-                .then(lecturer => {
-                  if(!lecturer) res.send('<script>alert("ID giảng viên không tồn tại!"); window.history.back();</script>');
-                  else 
-                  {
-                      enterprise.findOne({id:idEnterprise})
-                        .then(enterprise => {
-                          if(!enterprise) res.send('<script>alert("ID doanh nghiep không tồn tại!"); window.history.back();</script>')
-                          else {
-                              internship.findOneAndUpdate({id: req.params.id} , req.body)
-                              .then(() => res.redirect('/admin/internships'))
-                              .catch((error) => {
-                                res.send('error update internship');
-                              });
-                          }
-                        })
-                  }
-                })
-              }
-
-          })
-          .catch(next)
     }
 
     deleteInternship(req, res, next) {

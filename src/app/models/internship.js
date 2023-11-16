@@ -1,15 +1,12 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
-
-
-
 const internship = new Schema({
       id:{ 
         type: String,
-        lowercase: true,
+        unique:true,
       },
-      topic: {
+      title: {
         type: String,
         set: (value) => {
           if (typeof value !== 'string') return value;
@@ -25,14 +22,22 @@ const internship = new Schema({
         get: (value) => value // Giữ lại giá trị gốc khi lấy từ cơ sở dữ liệu
       },
       description:{type:String},
-      idEnterprise: {type: mongoose.Schema.Types.ObjectId, ref: 'enterprise' },
-      idLecturer: {type: mongoose.Schema.Types.ObjectId, ref: 'lecturer' },
-      idL:{type:String},
-      idE:{type:String}
+      startDate:{
+        type:Date
+      },
+      endDate:{
+        type:Date
+      },
+      idStudent:{
+        type:String,
+      },
+      idEnterprises:{
+        type:String,
+      },
+      idLecturer:{
+        type:String,
+      }
 })
-
-
-
 
 const Internship = mongoose.model('internship', internship)
   

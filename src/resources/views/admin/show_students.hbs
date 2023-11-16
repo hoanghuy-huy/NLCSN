@@ -1,8 +1,16 @@
+
 <style>
   a {
     text-decoration: none;
     color: #333;
   }
+
+.modal-backdrop.show {
+  backdrop-filter: blur(1px);
+  background-color: rgba(0, 0, 0, 0.5); /* Đặt màu nền với độ trong suốt */
+}
+
+
 </style>
 
 <div class="container mt-3">
@@ -28,9 +36,9 @@
       <!-- Lọc theo chuyên ngành -->
       <select id="majorFilter" class="form-select mt-3">
         <option value="">Tất cả chuyên ngành</option>
-        <option value="cong nghe thong tin">Công Nghệ Thông Tin</option>
-        <option value="khoa hoc may tinh">Khoa học máy tính</option>
-        <option value="ngoai ngu">Ngoại ngữ</option>
+        <option value="Công Nghệ Thông Tin">Công Nghệ Thông Tin</option>
+        <option value="Khoa học máy tính">Khoa học máy tính</option>
+        <option value="Kinh Tế">Kinh Tế</option>
         <!-- Thêm các chuyên ngành khác nếu cần -->
       </select>
     </div>
@@ -51,10 +59,10 @@
     <tbody>
       {{#each students}}
       <tr>
-        <td><a style="text-decoration" href="students/{{this.id}}">{{this.lastName}} {{this.firstName}}</a></td>
+        <td><p style="text-decoration" href="students/{{this.id}}">{{this.lastName}} {{this.firstName}}</p></td>
         <td>{{this.id}}</td>
         <td>{{this.key}}</td>
-        <td>{{this.fieldOfStudy}}</td>
+        <td>{{this.majors}}</td>
         <td>
           <a href="/admin/students/{{this.id}}/edit" class="btn btn-primary">Edit</a>
           <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-student-modal" data-id="{{this.id}}">Delete</button>
@@ -83,6 +91,7 @@
     </div>
   </div>
 </div>
+
 
 <!-- Delete hidden form-->
 <form name="delete-student-form" method="POST"></form>

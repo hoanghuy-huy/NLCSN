@@ -3,26 +3,35 @@ a {
   text-decoration: none;
   color: #333;
 }
+.modal-backdrop.show {
+  backdrop-filter: blur(1px);
+  background-color: rgba(0, 0, 0, 0.5); /* Đặt màu nền với độ trong suốt */
+}
 </style>
 
 
 <div class="container mt-3">
-  <h2>Internship</h2>
+  <h2>Thực tập</h2>
   <table class="table table-hover" href="internships/{{this.id}}">
     <thead>
       <tr>
         <th>Chủ đề</th>
-        <th>Mã Thực Tập</th>
         <th>Mô Tả</th>
+        <th>Id Sinh Viên</th>
+        <th>Id Giảng Viên Hướng Dẫn</th>
+        <th>Id Doanh Nghiệp</th>
         <th>Xử Lý</th>
       </tr>
     </thead>
     <tbody>
       {{#each internships}}
       <tr>
-        <td><a style="text-decoration" href="internships/{{this.id}}">{{this.topic}}</a></td>
-        <td>{{this.id}}</td>
+        <td><p style="text-decoration" href="internships/{{this.id}}">{{this.title}}</p></td>
+
         <td>{{this.description}}</td>
+        <td>{{this.idStudent}}</td>
+        <td>{{this.idLecturer}}</td>
+        <td>{{this.idEnterprises}}</td>
         <td>
             <a href="/admin/internships/{{this.id}}/edit" class="btn btn-primary">Edit</a>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-lecturer-modal" data-id="{{this.id}}">Delete</button>

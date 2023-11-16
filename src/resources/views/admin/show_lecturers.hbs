@@ -3,6 +3,10 @@ a {
   text-decoration: none;
   color: #333;
 }
+.modal-backdrop.show {
+  backdrop-filter: blur(1px);
+  background-color: rgba(0, 0, 0, 0.5); /* Đặt màu nền với độ trong suốt */
+}
 </style>
 
 
@@ -20,7 +24,7 @@ a {
     <tbody>
       {{#each lecturers}}
       <tr>
-        <td><a style="text-decoration" href="lecturers/{{this.id}}">{{this.lastName}} {{this.firstName}}</a></td>
+        <td><p style="text-decoration" href="lecturers/{{this.id}}">{{this.lastName}} {{this.firstName}}</p></td>
         <td>{{this.id}}</td>
         <td>{{this.yearOfBirth}}</td>
         <td>

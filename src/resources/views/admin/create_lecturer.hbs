@@ -209,10 +209,7 @@
         <div>
             <form class="form" method="POST" action="/admin/lecturers/store">
                 <div class="flex">
-                    <label>
-                        <input required="" placeholder="" type="text" class="input" name="id" id="id">
-                        <span>id</span>
-                    </label>
+
 
                     <label>
                         <input required="" placeholder="" type="text" class="input" name="firstName" id="firstName">
@@ -226,22 +223,25 @@
                 </div>  
                 
                 <div class="flex">
-
+                     <label>
+                        <input required="" placeholder="" type="text" class="input" name="id" id="id">
+                        <span>id</span>
+                    </label>     
+                    
                     <label>
                         <input required="" type="text" placeholder="" class="input" name="yearOfBirth" id="yearOfBirth">
                         <span>year of birth</span>
                     </label>
                         
-                    <label>
-                        <input required="" type="text" placeholder="" class="input" name="yearOfStudy" id="yearOfStudy">
-                        <span>year of study</span>
-                    </label> 
-                        
+
                 </div>  
 
                 <label>
-                    <input required="" type="text" placeholder="" class="input" name="gender" id="gender">
-                    <span>gender</span>
+                    <select required="" class="input" name="gender" id="gender">
+                        <option value="" disabled selected>Select gender</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                    </select>
                 </label>
         
                 <label>

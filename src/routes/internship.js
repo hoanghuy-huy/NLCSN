@@ -6,4 +6,5 @@ router.delete('/delete-internship/:internshipId',InternshipController.delete)
 router.post('/edit-internship/:internshipId',InternshipController.edit)
 router.post('/add-internship',InternshipController.create)
 
+
 module.exports = router

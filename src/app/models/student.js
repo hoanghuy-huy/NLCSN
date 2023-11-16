@@ -40,18 +40,17 @@ const student = new Schema(
       },
     yearOfBirth:{ type: String},
     yearOfStudy:{ type: Number,},
-    class:{ type: String,},
+    Class:{ type: String,},
     gender:{ type: String,},
-    fieldOfStudy:{ type: String,},
+    majors:{ type: String,},
     email:{ 
         type: String,
         lowercase:true,
     },
-    phone:{type: Number },
     address:{type:String },
     key:{type:Number},
-    idInternship:{type:String},
-    idInternshipObject: {type: mongoose.Schema.Types.ObjectId, ref: 'internship' }
+    //idInternship:{type:String},
+    // idInternshipObject: {type: mongoose.Schema.Types.ObjectId, ref: 'internship' }
     
   },
 

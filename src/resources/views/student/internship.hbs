@@ -1,0 +1,154 @@
+<style>
+.container {
+  display: flex;
+  gap: 20px;
+  padding-top: 20px;
+  padding-left: 40px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 320px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  padding: 32px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #212121;
+  border: 2px solid #313131;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  color: #e8e8e8;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.content .heading {
+  font-weight: 700;
+  font-size: 32px;
+}
+
+.content .para {
+  line-height: 1.5;
+}
+
+.content .btn {
+  color: #e8e8e8;
+  text-decoration: none;
+  padding: 10px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  background: #0974f1;
+  border-radius: 5px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+  box-shadow: 0 0 20px rgba(9, 117, 241, 0.8);
+  border-color: #0974f1;
+}
+
+.content .btn:hover {
+  outline: 2px solid #e8e8e8;
+  background: transparent;
+  color: #e8e8e8;
+}
+
+.content .btn:active {
+  box-shadow: none;
+}
+
+</style>
+
+<div class="container">
+  <div class="card">
+    <div class="content">
+      <p class="heading" style="text-align: center;">Thực Tập</p>
+      <h3><span id="internship-title"></span></h3>
+      <p>Description: <span id="internship-description"></span></p>
+      <p>Start Date: <span id="internship-start-date"></span></p>
+      <p>End Date: <span id="internship-end-date"></span></p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="content">
+      <p class="heading" style="text-align: center;">Giảng Viên</p>
+      <h3><strong></strong> <span id="lecturer-last-name"></span> <span id="lecturer-first-name"></span></h3>
+      <p><strong>ID:</strong> <span id="lecturer-id"></span></p>
+      <p><strong>Gender:</strong> <span id="lecturer-gender"></span></p>
+      <p><strong>Email:</strong> <span id="lecturer-email"></span></p>
+      <p><strong>Address:</strong> <span id="lecturer-address"></span></p>    
+    </div>
+  </div>
+  <div class="card">
+    <div class="content">
+      <p class="heading" style="text-align: center;">Doanh Nghiệp</p>
+      <h3><strong></strong>  <span id="enterprises-name"></span></h3>
+      <p><strong>Phone:</strong> <span id="enterprises-phone"></span></p>
+      <p><strong>Email:</strong> <span id="enterprises-email"></span></p>
+      <p><strong>Address:</strong> <span id="enterprises-address"></span></p>    
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+const data = localStorage.getItem('userData');
+const dateUser = JSON.parse(data);
+const dataI = localStorage.getItem('internshipData');
+const dataInternship = JSON.parse(dataI);
+axios.get(`http://localhost:3000/student/get-one-internship/${dateUser.username}`)
+  .then(function (response) {
+    const internship = response.data;
+    const startDay = internship.startDate.substring(0, 10);
+    const endDay= internship.startDate.substring(0, 10);
+
+    document.getElementById('internship-title').textContent = internship.title;
+    document.getElementById('internship-description').textContent = internship.title;
+    document.getElementById('internship-start-date').textContent = startDay;
+    document.getElementById('internship-end-date').textContent = endDay;
+
+    localStorage.setItem('internshipData', JSON.stringify(internship));
+    
+  })
+  .catch(function (error) {
+    console.error('Đã xảy ra lỗi:', error);
+  });
+axios.get(`http://localhost:3000/student/get-one-lecturer/${dataInternship.idLecturer}`)
+  .then(function (response) {
+    const lecturer = response.data;
+    document.getElementById('lecturer-id').textContent = lecturer.id;
+    document.getElementById('lecturer-first-name').textContent = lecturer.firstName;
+    document.getElementById('lecturer-last-name').textContent = lecturer.lastName;
+    document.getElementById('lecturer-gender').textContent = lecturer.gender;
+    document.getElementById('lecturer-email').textContent = lecturer.email;
+    document.getElementById('lecturer-address').textContent = lecturer.address;
+
+  })
+  .catch(function (error) {
+    console.error('Đã xảy ra lỗi:', error);
+  });
+
+axios.get(`http://localhost:3000/student/get-one-enterprises/${dataInternship.idEnterprises}`)
+  .then(function (response) {
+    const enterprises = response.data;
+    document.getElementById('enterprises-name').textContent =enterprises.name;
+    document.getElementById('enterprises-phone').textContent = enterprises.phone;
+    document.getElementById('enterprises-email').textContent = enterprises.email;
+    document.getElementById('enterprises-address').textContent = enterprises.address;
+
+  })
+  .catch(function (error) {
+    console.error('Đã xảy ra lỗi:', error);
+  });
+</script>
+

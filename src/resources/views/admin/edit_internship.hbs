@@ -209,12 +209,7 @@
             <form class="form" method="POST" action="/admin/internships/{{this.id}}?_method=PUT">
 
                 <label>
-                    <input required="" placeholder="" value="{{this.id}}" type="text" class="input" name="id" id="id">
-                    <span>id</span>
-                </label>
-
-                <label>
-                    <input required="" placeholder="" value="{{this.topic}}" type="text" class="input" name="topic" id="topic">
+                    <input required="" placeholder="" value="{{this.title}}" type="text" class="input" name="title" id="title">
                     <span>topic</span>
                 </label>
            
@@ -224,14 +219,20 @@
                 </label>
         
                 <label>
-                    <input required="" placeholder="" value="{{this.idL}}" type="text" class="input" name="idL" id="idL">
+                    <input required="" placeholder="" value="{{this.idLecturer}}" type="text" class="input" name="idLecturer" id="idLecturer">
                     <span>id Lecturer</span>
                 </label> 
                     
                 <label>
-                    <input required="" type="text" placeholder="" value="{{this.idE}}" class="input" name="idE" id="idE">
+                    <input required="" type="text" placeholder="" value="{{this.idEnterprises}}" class="input" name="idEnterprises" id="idEnterprises">
                     <span>id Enterprise</span>
                 </label>
+
+                <label>
+                    <input required="" type="text" placeholder="" value="{{this.idStudent}}" class="input" name="idStudent" id="idStudent">
+                    <span>id Student</span>
+                </label>
+
 
                 <button class="fancy" type="submit">
                 <span class="top-key"></span>
@@ -244,8 +245,7 @@
     </div>
 </div>
 
-{{/each}}
-
+{{/each}} 
 
 
 

@@ -3,6 +3,10 @@ a {
   text-decoration: none;
   color: #333;
 }
+.modal-backdrop.show {
+  backdrop-filter: blur(1px);
+  background-color: rgba(0, 0, 0, 0.5); /* Đặt màu nền với độ trong suốt */
+}
 </style>
 
 
@@ -19,7 +23,7 @@ a {
     <tbody>
       {{#each enterprises}}
       <tr>
-        <td><a style="text-decoration" href="enterprises/{{this.id}}">{{this.name}}</a></td>
+        <td><p style="text-decoration" href="enterprises/{{this.id}}">{{this.name}}</p></td>
         <td>{{this.id}}</td>
         <td>
             <a href="/admin/enterprises/{{this.id}}/edit" class="btn btn-primary">Edit</a>

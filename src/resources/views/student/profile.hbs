@@ -42,16 +42,18 @@
     <div class="profile-header">
       <img src="https://lh3.googleusercontent.com/lITWrBmk17F1fVAb1tDGFnnNaNWvPGV7r-KKQO7QHyFUXglCYIF4nKPC_z7K-XnEL47I29l2OY8LaqQRR67iV_0eCKU=s189" alt="Profile Image" class="profile-image">
       <div class="profile-info">
-        <h1><strong>Tên:</strong> <span id="student-last-name"></span> <span id="student-first-name"></span></h1>
+        <h1><strong>Name:</strong> <span id="student-last-name"></span> <span id="student-first-name"></span></h1>
         <p><strong>ID:</strong> <span id="student-id"></span></p>
-        <p><strong>Khóa</strong> <span id="student-key"></span></p>
+        <p><strong>Key:</strong> <span id="student-key"></span></p>
+        <p><strong>Year of birth:</strong> <span id="student-year-of-birth"></span></p>
+        <p><strong>Class:</strong> <span id="student-class"></span></p>
+        <p><strong>Gender:</strong> <span id="student-gender"></span></p>
+        <p><strong>Majors:</strong> <span id="student-majors"></span></p>
+        <p><strong>Email:</strong> <span id="student-email"></span></p>
+        <p><strong>Address:</strong> <span id="student-address"></span></p>
       </div>
-    </div>
+    </div>  
 
-    <div class="profile-introduction">
-      <h2>Giới thiệu</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt velit sed luctus accumsan. Nam vel diam ante. Sed non lorem odio. Sed vulputate auctor elit, non consequat tellus pulvinar sed. Nulla facilisi.</p>
-    </div>
 
 
 
@@ -74,24 +76,18 @@ axios.get(`http://localhost:3000/student/get-one/${dateUser.username}`)
     document.getElementById('student-first-name').textContent = student.firstName;
     document.getElementById('student-last-name').textContent = student.lastName;
     document.getElementById('student-key').textContent = student.key;
+    document.getElementById('student-year-of-birth').textContent = student.yearOfBirth;
+    document.getElementById('student-class').textContent = student.Class;
+    document.getElementById('student-gender').textContent = student.gender;
+    document.getElementById('student-email').textContent = dateUser.email;
+    document.getElementById('student-address').textContent = student.address;
+    document.getElementById('student-majors').textContent = student.majors;
+
   })
   .catch(function (error) {
-    console.error('Đã xảy ra lỗi:', error);
+    console.error('Đã xảy ra lỗi:', error.data.message);
   });
 
-axios.get(`http://localhost:3000/student/get-one/${dateUser.username}`)
-  .then(function (response) {
-    const student = response.data;
-    const id = student.id
-    const firstName = student.firstName
-    // Cập nhật thông tin trong phần tử HTML
-    document.getElementById('student-id').textContent = student.id;
-    document.getElementById('student-first-name').textContent = student.firstName;
-    document.getElementById('student-last-name').textContent = student.lastName;
-    document.getElementById('student-key').textContent = student.key;
-  })
-  .catch(function (error) {
-    console.error('Đã xảy ra lỗi:', error);
-});
+
 </script>
 

@@ -1,0 +1,113 @@
+<style>
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.left-section {
+    flex-basis: 50%;
+
+    padding: 20px;
+    height: 50%;
+
+}
+
+.right-section {
+    flex-basis: 50%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+}
+
+.top-section {
+
+    padding: 20px;
+    height: 25%;
+}
+
+.bottom-section {
+
+    padding: 20px;
+    height: 25%;
+}
+
+.additional-section {
+    flex-basis: 100%;
+
+    padding: 20px;
+}
+
+.card {
+  width: 300px;
+  height: 300px;
+  background: #e4e3e3da;
+  border-radius: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 0.4em;
+  align-items: flex-start;
+  padding: 1em 1.5em;
+  transition: all 0.5s ease;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.card:hover {
+  background: #f1f1f1;
+}
+
+.card-icon svg {
+  height: 4rem;
+  width: 4rem;
+}
+
+.card-body {
+  text-align: justify;
+}
+</style>
+<div class="container">
+    <div class="left-section" style="display: flex; justify-content: center;">
+        
+    </div>
+    <div class="right-section" >
+        <div class="top-section" style="display: flex; justify-content: center;">
+
+
+        </div>
+        <div class="bottom-section" style="display: flex; justify-content: center;">
+
+        </div>
+    </div>
+</div>
+
+{{!-- <script>
+// Gọi yêu cầu Ajax để lấy dữ liệu từ máy chủ
+const data = localStorage.getItem('userData');
+const dateUser = JSON.parse(data);
+
+axios.get(`http://localhost:3000/student/get-one/${dateUser.username}`)
+  .then(function (response) {
+    const student = response.data;
+    const id = student.id
+    const firstName = student.firstName
+    // Cập nhật thông tin trong phần tử HTML
+
+    document.getElementById('student-first-name').textContent = student.firstName;
+    document.getElementById('student-id').textContent = student.id;
+    document.getElementById('student-last-name').textContent = student.lastName;
+    document.getElementById('student-key').textContent = student.key;
+    document.getElementById('student-year-of-birth').textContent = student.yearOfBirth;
+    document.getElementById('student-class').textContent = student.Class;
+    document.getElementById('student-gender').textContent = student.gender;
+    document.getElementById('student-address').textContent = student.address;
+    document.getElementById('student-majors').textContent = student.majors;
+
+  })
+  .catch(function (error) {
+    console.error(error);
+  });
+
+
+</script> --}}
+

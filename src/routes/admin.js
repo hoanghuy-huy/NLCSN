@@ -32,7 +32,7 @@ router.get('/students/create',adminController.createStudent)
 router.get('/students',adminController.showStudents)
 router.get('/students/:id',adminController.showStudent)
 router.get('/students/:id/edit',adminController.editStudent)
-router.put('/students/:id',adminController.updateStudent)
+router.put('/students/:idStudent',adminController.updateStudent)
 router.delete('/students/:id',adminController.deleteStudent)
 // admin home
 

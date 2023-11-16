@@ -1,6 +1,9 @@
 const letter = require('../models/letter')
 const User = require('../models/user')
 const Student = require('../models/student')
+const Internship = require('../models/internship')
+const Lecturer = require('../models/lecturer')
+const Enterprises = require('../models/enterprise')
 class StudentController {
     
     index(req, res) {
@@ -80,6 +83,44 @@ class StudentController {
             } catch (error) {
             return res.status(500).json({ message: 'Internal server error' });
             }
+    }
+
+    async renderInternship(req, res, next){
+        res.render('student/internship',{layout:'student'})
+    }
+
+    async getOneInternship(req ,res, next) {
+        try {
+            const { idStudent } = req.params
+            const doc = await Internship.findOne({idStudent:idStudent})
+            if(!doc) return res.status(404).json({message:'Student have not yet register for internship'})
+            return res.status(200).json(doc)            
+        } catch (error) {
+            return res.status(500).json({message:'Internal server error'})
+        }   
+    }
+    async getOneLecturer(req ,res, next) {
+        try {
+            const { idLecturer } = req.params
+            const doc = await Lecturer.findOne({id:idLecturer})
+            if(!doc) return res.status(404).json({message:'Lecturer not found'})
+            return res.status(200).json(doc)            
+        } catch (error) {
+            return res.status(500).json({message:'Internal server error'})
+        }   
+
+    }
+
+    async getOneEnterprises(req ,res, next) {
+        try {
+            const { idEnterprises } = req.params
+            const doc = await Enterprises.findOne({id:idEnterprises})
+            if(!doc) return res.status(404).json({message:'Lecturer not found'})
+            return res.status(200).json(doc)            
+        } catch (error) {
+            return res.status(500).json({message:'Internal server error'})
+        }   
+
     }
 }
 
