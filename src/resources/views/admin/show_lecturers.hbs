@@ -1,86 +1,149 @@
-<style>
-a {
-  text-decoration: none;
-  color: #333;
-}
-.modal-backdrop.show {
-  backdrop-filter: blur(1px);
-  background-color: rgba(0, 0, 0, 0.5); /* Đặt màu nền với độ trong suốt */
-}
-</style>
-
-
-<div class="container mt-3">
-  <h2>Danh Sách Giảng Viên</h2>
-  <table class="table table-hover" href="lecturers/{{this.id}}">
-    <thead>
-      <tr>
-        <th>Tên Giảng Viên</th>
-        <th>Mã Giảng Viên</th>
-        <th>Năm Sinh</th>
-        <th>Xử Lý</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each lecturers}}
-      <tr>
-        <td><p style="text-decoration" href="lecturers/{{this.id}}">{{this.lastName}} {{this.firstName}}</p></td>
-        <td>{{this.id}}</td>
-        <td>{{this.yearOfBirth}}</td>
-        <td>
-            <a href="/admin/lecturers/{{this.id}}/edit" class="btn btn-primary">Edit</a>
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-lecturer-modal" data-id="{{this.id}}">Delete</button>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</div>
+  <style>
+  a {
+    text-decoration: none;
+    color: #333;
+  }
+  .modal-backdrop.show {
+    backdrop-filter: blur(1px);
+    background-color: rgba(0, 0, 0, 0.5); /* Đặt màu nền với độ trong suốt */
+  }
+  </style>
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="delete-lecturer-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Lecturer ?</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+  <div class="container mt-3">
+    <h2>danh sách giảng viên</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <input type="text" id="searchInput" placeholder="Tìm kiếm..." class="form-control mt-3">
       </div>
-      <div class="modal-body">
-          Delete
+    </div>
+          <div class="col-md-6">
+        <form action="/readLecturer" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="fileInput" class="form-label">Thêm thông tin giảng viên</label>
+            <input type="file" name="file" id="fileInput" class="form-control" required style="width: 100%;">
+            <div class="invalid-feedback">Vui lòng chọn một tệp.</div>
+          </div>
+          <button type="submit" class="btn btn-primary">Tải lên</button>
+        </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger" id="btn-delete-lecturer">Delete</button>
+    <table class="table table-hover" href="lecturers/{{this.id}}">
+      <thead>
+        <tr>
+          <th>Tên Giảng Viên</th>
+          <th>Mã Giảng Viên</th>
+          <th>Năm Sinh</th>
+          <th>Xử Lý</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each lecturers}}
+        <tr>
+          <td><p style="text-decoration" href="lecturers/{{this.id}}">{{this.lastName}} {{this.firstName}}</p></td>
+          <td>{{this.id}}</td>
+          <td>{{this.yearOfBirth}}</td>
+          <td>
+              <a href="/admin/lecturers/{{this.id}}/edit" class="btn btn-primary">Edit</a>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-lecturer-modal" data-id="{{this.id}}">Delete</button>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="delete-lecturer-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Lecturer ?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Delete
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" id="btn-delete-lecturer">Delete</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-{{!-- Delete hidden form--}}
-<form name="delete-lecturer-form" method="POST"></form>
+  {{!-- Delete hidden form--}}
+  <form name="delete-lecturer-form" method="POST"></form>
 
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var deleteLecturerModal = document.getElementById('delete-lecturer-modal')
-    var btnDeleteLecturer = document.getElementById('btn-delete-lecturer')
-    var deleteForm = document.forms['delete-lecturer-form']
-    var lecturerId
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var deleteLecturerModal = document.getElementById('delete-lecturer-modal')
+      var btnDeleteLecturer = document.getElementById('btn-delete-lecturer')
+      var deleteForm = document.forms['delete-lecturer-form']
+      var lecturerId
 
-    if ( deleteLecturerModal) {
-      deleteLecturerModal.addEventListener('show.bs.modal', event => {
+      if ( deleteLecturerModal) {
+        deleteLecturerModal.addEventListener('show.bs.modal', event => {
 
-        var button = event.relatedTarget
+          var button = event.relatedTarget
 
-        lecturerId = button.getAttribute('data-id')
+          lecturerId = button.getAttribute('data-id')
 
-  
-      })
+    
+        })
+      }
+      btnDeleteLecturer.onclick = function () {
+        deleteForm.action = '/admin/lecturers/' + lecturerId +'?_method=DELETE'
+        deleteForm.submit()
+      }
+    })
+
+
+    const fileInput = document.getElementById('fileInput');
+    fileInput.addEventListener('change', function() {
+      const fileName = fileInput.value.split('\\').pop();
+      alert('Đã chọn tệp: ' + fileName);
+    });
+
+   
+    const form = document.querySelector('.needs-validation');
+    form.addEventListener('submit', function(event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    });
+
+
+  var searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', function() {
+  var input = this.value.toLowerCase();
+  var keywords = input.split(" ");
+
+  var table = document.querySelector('.table');
+  var rows = table.getElementsByTagName('tr');
+
+  for (var i = 1; i < rows.length; i++) {
+    var name = rows[i].getElementsByTagName('td')[0].innerText.toLowerCase();
+    var id = rows[i].getElementsByTagName('td')[1].innerText.toLowerCase();
+
+    var match = true;
+    for (var j = 0; j < keywords.length; j++) {
+      if (!(name.includes(keywords[j]) || id.includes(keywords[j]))) {
+        match = false;
+        break;
+      }
     }
-    btnDeleteLecturer.onclick = function () {
-      deleteForm.action = '/admin/lecturers/' + lecturerId +'?_method=DELETE'
-      deleteForm.submit()
+
+    if (match) {
+      rows[i].style.display = '';
+    } else {
+      rows[i].style.display = 'none';
     }
-  })
-</script>
+  }
+  });
+  </script>

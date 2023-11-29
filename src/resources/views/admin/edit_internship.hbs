@@ -206,32 +206,39 @@
     </div>
     <div class="content2" style="padding-left: 330px;",>
         <div>
-            <form class="form" method="POST" action="/admin/internships/{{this.id}}?_method=PUT">
+            <form class="form" method="POST" action="/admin/internships/{{this._id}}?_method=PUT">
 
                 <label>
-                    <input required="" placeholder="" value="{{this.title}}" type="text" class="input" name="title" id="title">
-                    <span>topic</span>
+                    <input required="" placeholder="" value="{{this.f_mamh}}" type="text" class="input" name="f_mamh" id="f_mamh">
+                    <span>Mã Môn Học</span>
                 </label>
            
                 <label>
-                    <input required="" type="text" placeholder="" value="{{this.description}}" class="input" name="description" id="description">
-                    <span>description</span>
+                    <input required="" type="text" placeholder="" value="{{this.f_manh}}" class="input" name="f_manh" id="f_manh">
+                    <span>Mã Nhóm</span>
                 </label>
         
                 <label>
-                    <input required="" placeholder="" value="{{this.idLecturer}}" type="text" class="input" name="idLecturer" id="idLecturer">
-                    <span>id Lecturer</span>
+                    <input required="" placeholder="" value="{{this.f_mssv}}" type="text" class="input" name="f_mssv" id="f_mssv">
+                    <span>Mã Số Sinh Viên</span>
                 </label> 
-                    
-                <label>
-                    <input required="" type="text" placeholder="" value="{{this.idEnterprises}}" class="input" name="idEnterprises" id="idEnterprises">
-                    <span>id Enterprise</span>
-                </label>
 
                 <label>
-                    <input required="" type="text" placeholder="" value="{{this.idStudent}}" class="input" name="idStudent" id="idStudent">
-                    <span>id Student</span>
+                    <input required="" placeholder="" value="{{this.f_msgv}}" type="text" class="input" name="f_msgv" id="f_msgv">
+                    <span>Mã Số Giảng Viên</span>
+                </label> 
+
+                <label>
+                    <input required="" placeholder="" value="{{this.f_msdn}}" type="text" class="input" name="f_msdn" id="f_msdn">
+                    <span>Mã Số Doanh Nghiệp</span>
+                </label> 
+
+                <label>
+                    <input required="" type="text" placeholder="" value="{{this.f_tenmhvn}}" class="input" name="f_tenmhvn" id="f_tenmhvn">
+                    <span>Tên Môn Học </span>
                 </label>
+
+
 
 
                 <button class="fancy" type="submit">

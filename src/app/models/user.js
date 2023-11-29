@@ -11,18 +11,12 @@ const user = new Schema({
         required:true,
         lowercase: true,
     },
-    email:{
-        type: String,
-        required:true,
-        unique:true,
-    },
     password:{
         type: String,
         required:true,
     },
-    admin:{
-        type: Boolean,
-        default:false 
+    role:{
+        type: String,
     },
 
 })

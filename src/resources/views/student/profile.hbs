@@ -1,66 +1,63 @@
 
-  <style>
-    .profile-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-      font-family: Arial, sans-serif;
-    }
+<style>
+.profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
 
-    .profile-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
-    .profile-image {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-right: 20px;
-    }
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
 
-    .profile-info {
-      font-size: 18px;
-    }
+.profile-info {
+  font-size: 18px;
+}
 
-    .profile-introduction {
-      margin-bottom: 20px;
-    }
+.profile-introduction {
+  margin-bottom: 20px;
+}
 
-    .profile-courses {
-      margin-bottom: 20px;
-    }
+.profile-courses {
+  margin-bottom: 20px;
+}
 
-    .course-item {
-      margin-bottom: 10px;
-    }
-  </style>
+.course-item {
+  margin-bottom: 10px;
+}
+</style>
 <div>
   <div class="profile-container">
     <div class="profile-header">
-      <img src="https://lh3.googleusercontent.com/lITWrBmk17F1fVAb1tDGFnnNaNWvPGV7r-KKQO7QHyFUXglCYIF4nKPC_z7K-XnEL47I29l2OY8LaqQRR67iV_0eCKU=s189" alt="Profile Image" class="profile-image">
+      <div>
+       <img src="https://lh3.googleusercontent.com/lITWrBmk17F1fVAb1tDGFnnNaNWvPGV7r-KKQO7QHyFUXglCYIF4nKPC_z7K-XnEL47I29l2OY8LaqQRR67iV_0eCKU=s189" alt="Profile Image" class="profile-image">
+      </div>
       <div class="profile-info">
-        <h1><strong>Name:</strong> <span id="student-last-name"></span> <span id="student-first-name"></span></h1>
-        <p><strong>ID:</strong> <span id="student-id"></span></p>
-        <p><strong>Key:</strong> <span id="student-key"></span></p>
-        <p><strong>Year of birth:</strong> <span id="student-year-of-birth"></span></p>
-        <p><strong>Class:</strong> <span id="student-class"></span></p>
-        <p><strong>Gender:</strong> <span id="student-gender"></span></p>
-        <p><strong>Majors:</strong> <span id="student-majors"></span></p>
-        <p><strong>Email:</strong> <span id="student-email"></span></p>
-        <p><strong>Address:</strong> <span id="student-address"></span></p>
+        <h1><strong></strong> <span id="student-last-name"></span> <span id="student-first-name"></span></h1>
+        <p><strong>MSSV:</strong> <span id="student-id"></span></p>
+        <p><strong>Khóa:</strong> <span id="student-key"></span></p>
+        <p><strong>Năm Sinh:</strong> <span id="student-year-of-birth"></span></p>
+        <p><strong>Lớp:</strong> <span id="student-class"></span></p>
+        <p><strong>Giới Tính:</strong> <span id="student-gender"></span></p>
+        <p><strong>Chuyên Ngành:</strong> <span id="student-majors"></span></p>
+
+        <p><strong>Địa Chỉ:</strong> <span id="student-address"></span></p>
       </div>
     </div>  
-
-
-
-
-    <!-- Thêm thông tin sinh viên khác tại đây -->
   </div>
-
 </div>
+
 <script>
 // Gọi yêu cầu Ajax để lấy dữ liệu từ máy chủ
 const data = localStorage.getItem('userData');
@@ -79,7 +76,6 @@ axios.get(`http://localhost:3000/student/get-one/${dateUser.username}`)
     document.getElementById('student-year-of-birth').textContent = student.yearOfBirth;
     document.getElementById('student-class').textContent = student.Class;
     document.getElementById('student-gender').textContent = student.gender;
-    document.getElementById('student-email').textContent = dateUser.email;
     document.getElementById('student-address').textContent = student.address;
     document.getElementById('student-majors').textContent = student.majors;
 

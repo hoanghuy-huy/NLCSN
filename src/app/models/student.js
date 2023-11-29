@@ -41,7 +41,7 @@ const student = new Schema(
     yearOfBirth:{ type: String},
     yearOfStudy:{ type: Number,},
     Class:{ type: String,},
-    gender:{ type: String,},
+    gender:{ type: String,},  
     majors:{ type: String,},
     email:{ 
         type: String,

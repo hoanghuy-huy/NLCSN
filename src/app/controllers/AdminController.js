@@ -3,9 +3,13 @@ const { multipleMongooseToObject, mongooseToObject } = require('../../util/mongo
 const student = require('../models/student')
 const lecturer = require('../models/lecturer');
 const enterprise = require('../models/enterprise')
-const internship = require('../models/internship')
+// const internship = require('../models/internship')
+const internship = require('../models/sinhvienthuctap')
 const uuid = require('uuid')
-
+const multer = require('multer');
+const excelModel = require('../models//excel');
+const Lecturer = require('../models/lecturer');
+const upload = multer({ dest: 'uploads/' });
 class AdminController {
     
     //[GET] /admin
@@ -127,29 +131,55 @@ class AdminController {
         const { idStudent } = req.params
         const { id,lastName, firstName, yearOfBirth, yearOfStudy, Class, gender, majors, address } = req.body;
         const key = yearOfStudy - 1974;
-        if(idStudent != id ){
-         const doc = await student.findOne({id:id})
-         if(doc) return res.send('<script>alert("ID already exists"); window.history.back();</script>');
+        if(idStudent === id ){
           const updateStudent = await student.findOneAndUpdate(
-            { id: id },
+            { id: idStudent },
             { lastName, firstName, yearOfBirth, yearOfStudy, Class, gender, majors, address, key },
           );
-        
-          return  res.redirect('/admin/students')
+          const doc = await internship.findOneAndUpdate(
+            { f_mssv: idStudent },
+            { f_mssv: id}
+          );
+           return  res.redirect('/admin/students')          
         }
-        const updateStudent = await student.findOneAndUpdate(
-          { id: id },
-          { lastName, firstName, yearOfBirth, yearOfStudy, Class, gender, majors, address, key },
-        );
-      
-        return  res.redirect('/admin/students')
+        const doc = await student.findOne({id:id})
+        if(doc) return res.send('<script>alert("Id already exists"); window.history.back();</script>');
+        else {
+          const updateStudent = await student.findOneAndUpdate(
+            { id: idStudent },
+            { id,lastName, firstName, yearOfBirth, yearOfStudy, Class, gender, majors, address, key },
+          );
+          const doc = await internship.findOneAndUpdate(
+            { f_mssv: idStudent },
+            { f_mssv: id}
+          );
+          return  res.redirect('/admin/students')      
+
+        }
       } catch (error) {
         return res.status(500).json({ message: 'Internal server error' });
       }
     }
+    // async updateStudent(req, res, next) {  
+    //   try {
+    //     const {idStudent} = req.params
+    //     const {id,key,...others} = req.body
+    //     key = yearOfStudy - 1974;
+    //     if(id === idStudent){
+    //       const update = await student.findOne({id:idStudent})
+    //       return res.json({others})
+    //     }   
+    //     else{
+    //       res.json({id,idStudent,message:'else'})
+    //     }
+    //   } catch (error) {
+        
+    //   }
+    // }
 
     //[DELETE] admin/student/:id
-    deleteStudent(req, res, next) {
+    async deleteStudent(req, res, next) {
+      await internship.findOneAndDelete({f_mssv:req.params.id})
       student.deleteOne({id: req.params.id})
         .then(()=> res.redirect('back'))
         .catch(next)
@@ -209,28 +239,59 @@ class AdminController {
     }
 
     //[PUT] /admin/lecturer/:id
-    updateLecturer(req, res, next) {
-        const formData = req.body
-        formData.id = formData.id.toLowerCase()
-        lecturer.findOne({id:formData.id})
-          .then(doc => {
-            if(req.params.id===req.body.id) {
-                formData.email = formData.firstName + '@ctu.edu.vn'
-                lecturer.findOneAndUpdate({id:req.body.id},req.body)
-                  .then(()=>res.redirect('/admin/lecturers'))
-                  .catch(next)
-            }
-            else if(doc) res.send('<script>alert("ID giang viên đã tồn tại!"); window.history.back();</script>')
-            else {
-              formData.email = formData.firstName + '@ctu.edu.vn'
-              lecturer.findOneAndUpdate({id:req.params.id},formData)
-                .then(()=>res.redirect('/admin/lecturers'))
-                .catch(next)
-            }
-          })
-          .catch(next)
-    }
+    // async updateLecturer(req, res, next) {
+    //     const formData = req.body
+    //     formData.id = formData.id.toLowerCase()
+    //     lecturer.findOne({id:formData.id})
+    //       .then(doc => {
+    //         if(req.params.id===req.body.id) {
+    //             lecturer.findOneAndUpdate({id:req.body.id},req.body)
+    //               .then(()=>res.redirect('/admin/lecturers'))
+    //               .catch(next)
+    //         }
+    //         else if(doc) res.send('<script>alert("ID giang viên đã tồn tại!"); window.history.back();</script>')
+    //         else {
+              
+    //           lecturer.findOneAndUpdate({id:req.params.id},formData)
+    //             .then(()=>res.redirect('/admin/lecturers'))
+    //             .catch(next)
+    //         }
+    //       })
+    //       .catch(next)
+    //   }
+      async updateLecturer(req, res, next) {
+        try {
+          const { id } = req.params
+          const idLecturer = req.body.id
+          
+          if(idLecturer === id ){
+            const update = await lecturer.findOneAndUpdate(
+              {id:idLecturer},req.body
+            );
+            const doc = await internship.findOneAndUpdate(
+              { f_msgv: idLecturer },
+              { f_msgv: idLecturer}
+            );
+             return  res.redirect('/admin/lecturers')          
+          }
+          const doc = await lecturer.findOne({id:req.body.id})
+          if(doc) return res.send('<script>alert("Id already exists"); window.history.back();</script>');
+          else{
+            const update = await lecturer.findOneAndUpdate(
+              {id:id},req.body
+            );
+            const doc = await internship.findOneAndUpdate(
+              {f_msgv: id},
+              {f_msgv: req.body.id}
+            );
 
+            return  res.redirect('/admin/lecturers')
+          }
+        } catch (error) {
+          return res.status(500).json({ message: 'Internal server error' });
+        }
+
+      }
     //[DELETE] /admin/lecturer/:id
     deleteLecturer(req, res, next) {
       lecturer.findOneAndDelete({id:req.params.id})
@@ -293,12 +354,37 @@ class AdminController {
           .catch(error => next(error));  
     }
     //[PUT] admin/student/:id
-    updateEnterprise(req, res, next) {
-      enterprise.findOneAndUpdate({id: req.params.id} , req.body)
-          .then(() => res.redirect('/admin/enterprises'))
-          .catch((error) => {
-            res.send('<script>alert("ID Doanh Nghiep đã tồn tại!"); window.history.back();</script>');
-          });
+    async updateEnterprise(req, res, next) {
+      try {
+        const { id } = req.params
+        const idEnterprise = req.body.id
+        
+        if(idEnterprise === id ){
+          const update = await enterprise.findOneAndUpdate(
+            {id:idEnterprise},req.body
+          );
+          const doc = await internship.findOneAndUpdate(
+            { f_msdn: idEnterprise },
+            { f_msdn: idEnterprise}
+          );
+           return  res.redirect('/admin/enterprises')          
+        }
+        const doc = await enterprise.findOne({id:req.body.id})
+        if(doc) return res.send('<script>alert("Id already exists"); window.history.back();</script>');
+        else{
+          const update = await enterprise.findOneAndUpdate(
+            {id:id},req.body
+          );
+          const doc = await internship.findOneAndUpdate(
+            {f_msdn: id},
+            {f_msdn: req.body.id}
+          );
+
+          return  res.redirect('/admin/enterprises')
+        }
+      } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' });
+      }
     }
     //[DELETE] /admin/enterprise/:id
     deleteEnterprise(req, res, next) {
@@ -307,18 +393,18 @@ class AdminController {
         .catch(next)
     }
 
-    showInternships(req, res, next) {
-      internship.find({})
-        .then(internships => {
-          res.render('admin/show_internships',
-          {
-            layout:'admin',
-            internships:multipleMongooseToObject(internships)
-          }
-          )
-        })
-        .catch(next)
-    }
+    // showInternships(req, res, next) {
+    //   internship.find({})
+    //     .then(internships => {
+    //       res.render('admin/show_internships',
+    //       {
+    //         layout:'admin',
+    //         internships:multipleMongooseToObject(internships)
+    //       }
+    //       )
+    //     })
+    //     .catch(next)
+    // }
 
     showInternship(req, res, next) {
       internship.find({id:req.params.id})
@@ -333,9 +419,9 @@ class AdminController {
       
     }
 
-    createInternship(req, res, next) {
-      res.render('admin/create_internship',{layout:"admin"})
-    }
+    // createInternship(req, res, next) {
+    //   res.render('admin/create_internship',{layout:"admin"})
+    // }
 
 
 
@@ -367,35 +453,64 @@ class AdminController {
         return res.redirect('/admin/internships')
     }
 
+
+
+
+
+
+
+    renderStudent(req, res, next) {
+      res.render('admin/import-student',{layout:"admin"})
+    }
+
+    showInfInternship(req, res, next){
+       // res.render('admin/thong-tin-thuc-tap',{layout:'admin'})
+    }
+
+    getAllInfInternship(req, res, next) {
+      internship.find({})
+        .then(internships => {
+          res.render('admin/thong-tin-thuc-tap', {
+            layout: 'admin',
+            internships: multipleMongooseToObject(internships),
+          });
+        })
+        .catch(error => next(error));
+    }
+
+    async deleteInternship(req, res, next) {
+      const internshipId = req.params
+      await internship.findOneAndDelete({_id:internshipId.id}) 
+      return res.redirect('/admin/thong-tin-thuc-tap')
+    }
+
+
     editInternship(req, res, next) {
-      const id = req.params.id;
-        internship.find({id:id})
+      const internshipId = req.params
+      internship.find({_id:internshipId.id}) 
           .then(internship => res.render('admin/edit_internship' , {
             layout: 'admin',
             internship: multipleMongooseToObject(internship),
-            
           }))
           .catch(error => next(error));  
     }
 
     async updateInternship(req, res, next) {
-        const { id } = req.params
-        const Internship = req.body
-        const idLecturer = await lecturer.findOne({id:Internship.idLecturer})
-        if(!idLecturer) return res.send('<script>alert("Lecturer not found."); window.history.back();</script>')
-        const idEnterprises = await enterprise.findOne({id:Internship.idEnterprises})
-        if(!idEnterprises) return res.send('<script>alert("Enterprises not found."); window.history.back();</script>')
-        const update = await internship.findOneAndUpdate({id:id},req.body)
-        return res.redirect('/admin/internships')
+      const studentId = req.body.f_mssv
+      const internshipId = req.params
 
-    }
+      const docStudent = await student.findOne({id:studentId})
+      if(!docStudent) return res.send('<script>alert("Sinh Viên không tồn tại"); window.history.back();</script>');
 
-    deleteInternship(req, res, next) {
-      internship.findOneAndDelete({id:req.params.id})
-        .then(()=> res.redirect('back'))
-        .catch(next)
-    }
+      const docL = await lecturer.findOne({id:req.body.f_msgv})
+      if(!docL) return res.send('<script>alert("giảng viên không tồn tại"); window.history.back();</script>');
 
+      const docE = await enterprise.findOne({id:req.body.f_msdn})
+      if(!docE) return res.send('<script>alert("doanh Nghiệp không tồn tại"); window.history.back();</script>');
+
+      await internship.findOneAndUpdate({_id:internshipId.id},req.body)
+      return res.redirect('/admin/thong-tin-thuc-tap')
+  }
 }
 
 module.exports = new AdminController

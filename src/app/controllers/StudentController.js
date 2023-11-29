@@ -1,9 +1,10 @@
 const letter = require('../models/letter')
 const User = require('../models/user')
 const Student = require('../models/student')
-const Internship = require('../models/internship')
+const Internship = require('../models/sinhvienthuctap')
 const Lecturer = require('../models/lecturer')
 const Enterprises = require('../models/enterprise')
+const informationInternShip = require('../models/sinhvienthuctap')
 class StudentController {
     
     index(req, res) {
@@ -92,7 +93,7 @@ class StudentController {
     async getOneInternship(req ,res, next) {
         try {
             const { idStudent } = req.params
-            const doc = await Internship.findOne({idStudent:idStudent})
+            const doc = await Internship.findOne({f_mssv:idStudent})
             if(!doc) return res.status(404).json({message:'Student have not yet register for internship'})
             return res.status(200).json(doc)            
         } catch (error) {
@@ -121,6 +122,16 @@ class StudentController {
             return res.status(500).json({message:'Internal server error'})
         }   
 
+    }
+    dangkihocphan(req, res){
+        res.render('student/test')
+    }
+
+    async getOneIn4(req, res){
+        const {idStudent} = req.params
+        const internship = await informationInternShip.findOne({f_mssv:idStudent})
+        if(!internship) return res.status(404).json({message:'Not Found'})
+        res.status(200).json(internship)
     }
 }
 

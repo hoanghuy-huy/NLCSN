@@ -10,9 +10,30 @@ a {
 </style>
 
 
+
+
 <div class="container mt-3">
-  <h2>Danh Sách Doanh Nghiệp</h2>
+  <h2>danh sách doanh nghiệp</h2>
+    
+    <div class="row">
+      <div class="col-md-6">
+        <input type="text" id="searchInput" placeholder="Tìm kiếm..." class="form-control mt-3">
+      </div>
+    </div>
+  </div>
   <table class="table table-hover" href="enterprises/{{this.id}}">
+  <div>
+          <div class="col-md-6">
+        <form action="/readEnterprises" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="fileInput" class="form-label">Thêm thông tin doanh nghiệp</label>
+            <input type="file" name="file" id="fileInput" class="form-control" required style="width: 100%;">
+            <div class="invalid-feedback">Vui lòng chọn một tệp.</div>
+          </div>
+          <button type="submit" class="btn btn-primary">Tải lên</button>
+        </form>
+      </div>
+  </div>
     <thead>
       <tr>
         <th>Tên Doanh Nghiệp</th>
@@ -81,4 +102,48 @@ a {
       deleteForm.submit()
     }
   })
+
+      const fileInput = document.getElementById('fileInput');
+    fileInput.addEventListener('change', function() {
+      const fileName = fileInput.value.split('\\').pop();
+      alert('Đã chọn tệp: ' + fileName);
+    });
+
+   
+    const form = document.querySelector('.needs-validation');
+    form.addEventListener('submit', function(event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    });
+
+  var searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', function() {
+  var input = this.value.toLowerCase();
+  var keywords = input.split(" ");
+
+  var table = document.querySelector('.table');
+  var rows = table.getElementsByTagName('tr');
+
+  for (var i = 1; i < rows.length; i++) {
+    var name = rows[i].getElementsByTagName('td')[0].innerText.toLowerCase();
+    var id = rows[i].getElementsByTagName('td')[1].innerText.toLowerCase();
+
+    var match = true;
+    for (var j = 0; j < keywords.length; j++) {
+      if (!(name.includes(keywords[j]) || id.includes(keywords[j]))) {
+        match = false;
+        break;
+      }
+    }
+
+    if (match) {
+      rows[i].style.display = '';
+    } else {
+      rows[i].style.display = 'none';
+    }
+  }
+  });
 </script>

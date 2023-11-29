@@ -2,10 +2,10 @@
   <form class="form" id="loginForm">  
     <p class="form-title">Sign Up Your Account</p>
     <div class="input-container">
-      <input placeholder="Nhập tên người dùng" type="text" id="username" name="username" required/>
+      <input placeholder="Nhập username" type="text" id="username" name="username" required/>
     </div>
     <div class="input-container">
-      <input placeholder="Nhập mật khẩu" type="password" id="password" name="password" required />
+      <input placeholder="Nhập password" type="password" id="password" name="password" required />
     </div>
 
     <button class="submit" type="submit">
@@ -16,6 +16,8 @@
     </p>
   </form>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
   const loginForm = document.getElementById("loginForm");
@@ -37,24 +39,33 @@
         localStorage.setItem("userData", JSON.stringify(userData));
 
         const user = userData;
-          if (user.admin === true) {
+        if (user.role === 'admin') {
           // Gán token vào header khi chuyển hướng đến trang admin
-           axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-           window.location.href = "/admin";
-        } else {
-          // Gán token vào header khi chuyển hướng đến trang student
-          axios.defaults.headers.common["Authorization"] = `Bearer  ${accessToken}`;
+          axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+          console.log(axios.defaults.headers.common["Authorization"]);
+          window.location.href = "/admin";
+        }else if (user.role === 'lecturer') {
+          // Gán token vào header khi chuyển hướng đến trang admin
+          axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+          console.log(axios.defaults.headers.common["Authorization"]);
+          window.location.href = "/lecturer";
+        }
+        else {
+          axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+          console.log(axios.defaults.headers.common["Authorization"]);
           window.location.href = "/student";
+          
         }
       })
       .catch(error => {
         alert(error.response.data.message);
       });
+
   });
 </script>
 
 
-<style scoped>
+<style>
 .container {
   display: flex;
   justify-content: center;

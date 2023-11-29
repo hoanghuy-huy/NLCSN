@@ -8,36 +8,58 @@ let refreshTokenArr = []
 
 class AuthController {
   // [POST] /register
-  async register(req, res, next) {
-    try {
-       const { username, password, email } = req.body;
-       const id = uuid.v4();
-       const salt = await bcrypt.genSalt(10);
-       const hashed = await bcrypt.hash(password, salt);
+//   async register(req, res, next) {
+//     try {
+//        const { username, password, email } = req.body;
+//        const id = uuid.v4();
+//        const salt = await bcrypt.genSalt(10);
+//        const hashed = await bcrypt.hash(password, salt);
        
-       const emailUser = await User.findOne({ email: email });
-       const user = await User.findOne({ username: username });
+//       const emailUser = await User.findOne({ email: email });
+//        const user = await User.findOne({ username: username });
        
-       if (emailUser) {
-          return res.send('<script>alert("Email already exists!"); window.history.back();</script>')
-       } else if (user) {
-          return res.send('<script>alert("Username already exists!"); window.history.back();</script>')
-       }
-       else {
-          const newUser = await new User({
-              id: id,
-              username: username,
-              password: hashed,
-              email: email,
-          });
-          await newUser.save();   
-          return  res.send('<script>alert("Register successfully"); window.location.href = "/";</script>')  
-       }
-    } catch (error) {
-       return res.status(500).json(error);
-    }
- }
+//        if (emailUser) {
+//           return res.send('<script>alert("Email already exists!"); window.history.back();</script>')
+//        } else if (user) {
+//           return res.send('<script>alert("Username already exists!"); window.history.back();</script>')
+//        }
+//        else {
+//           const newUser = await new User({
+//               id: id,
+//               username: username,
+//               password: hashed,
+//               email: email,
+//           });
+//           await newUser.save();   
+//           return  res.send('<script>alert("Register successfully"); window.location.href = "/";</script>')  
+//        }
+//     } catch (error) {
+//        return res.status(500).json(error);
+//     }
+//  }
+async register(req, res, next) {
+      try {
+         const { username, password, role } = req.body;
+         const id = uuid.v4();
+         const salt = await bcrypt.genSalt(10);
+         const hashed = await bcrypt.hash(password, salt);
 
+         const user = await User.findOne({ username: username });
+         if (user) return res.send('<script>alert("Username already exists!"); window.history.back();</script>')
+         else {
+            const newUser = await new User({
+                id: id,
+                username: username,
+                password: hashed,
+                role: role,
+            });
+            await newUser.save();   
+            return  res.send('<script>alert("Register successfully"); window.location.href = "/";</script>')  
+         }
+      } catch (error) {
+         return res.status(500).json(error);
+      }
+   }
    
   async login(req, res, next) {
     try {

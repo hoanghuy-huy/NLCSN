@@ -1,5 +1,8 @@
 const User =  require('../models/user')
 const Lecturer = require('../models/lecturer')
+const Internship = require('../models/sinhvienthuctap')
+const Student = require('../models/student')
+const { multipleMongooseToObject, mongooseToObject } = require('../../util/mongoose');
 class LecturerController {
     //[POST] Lecturer/add-Lecturer
     async create(req, res, next) {
@@ -38,6 +41,20 @@ class LecturerController {
         }
     }
 
+    profile(req,res){
+        res.render('lecturer/index',{ layout: 'lecturer'})
+    }
+
+    async renderListStudent(req, res){
+        const student = await Internship.find({f_msgv:'123'})
+        const mssvArray = student.map(item => item.f_mssv);
+        const list = await Student.find({ id: { $in: mssvArray } })
+        res.render('lecturer/list-student' , {
+            layout: 'lecturer',
+            students: multipleMongooseToObject(list),
+        })
+
+    }
 }
 
 module.exports = new LecturerController

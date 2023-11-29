@@ -2,13 +2,20 @@ const express = require('express')
 const router = express.Router()
 const adminController = require('../app/controllers/AdminController')
 const middlewareController = require('../app/controllers/middlewareController')
+
+
+
+router.get('/thong-tin-thuc-tap',adminController.getAllInfInternship)
+// router.get('/thong-tin-thuc-tap',adminController.showInfInternship)
+router.get('/import-student',adminController.renderStudent)
+
 router.delete('/internships/:id',adminController.deleteInternship)
 router.put('/internships/:id',adminController.updateInternship)
 router.get('/internships/:id/edit',adminController.editInternship)
 router.post('/internships/store',adminController.saveInternship)
-router.get('/internships/create',adminController.createInternship)
-router.get('/internships/:id',adminController.showInternship)
-router.get('/internships',adminController.showInternships)
+// router.get('/internships/create',adminController.createInternship)
+// router.get('/internships/:id',adminController.showInternship)
+// router.get('/internships',adminController.showInternships)
 
 router.delete('/enterprises/:id',adminController.deleteEnterprise)
 router.put('/enterprises/:id',adminController.updateEnterprise)

@@ -1,0 +1,85 @@
+<style>
+  a {
+    text-decoration: none;
+    color: #333;
+  }
+
+  .modal-backdrop.show {
+    backdrop-filter: blur(1px);
+    background-color: rgba(0, 0, 0, 0.5); /* Set transparent background color */
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+
+  .col-md-6,
+  .col-md-3 {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+</style>
+
+<div class="container mt-3">
+  <h2>Danh sách sinh viên</h2>
+
+  <div>
+    <!-- Search bar and import file button -->
+    <div class="row">
+      <div class="col-md-6">
+        <input type="text" id="searchInput" placeholder="Tìm kiếm..." class="form-control mt-3">
+      </div>
+    </div>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Tên Sinh Viên</th>
+          <th>Mã Số Sinh Viên</th>
+          <th>Khóa</th>
+          <th>Ngành Học</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each students}}
+          <tr>
+            <td><a href="students/{{this.id}}" style="text-decoration: none;">{{this.lastName}} {{this.firstName}}</a></td>
+            <td>{{this.id}}</td>
+            <td>{{this.key}}</td>
+            <td>{{this.majors}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var searchInput = document.getElementById('searchInput');
+    var table = document.querySelector('.table');
+    var rows = table.getElementsByTagName('tr');
+
+    var filterRows = function() {
+      var input = searchInput.value.toLowerCase();
+
+      for (var i = 1; i < rows.length; i++) {
+        var name = rows[i].getElementsByTagName('td')[0].innerText.toLowerCase();
+        var id = rows[i].getElementsByTagName('td')[1].innerText.toLowerCase();
+        var key = rows[i].getElementsByTagName('td')[2].innerText.toLowerCase();
+        var majors = rows[i].getElementsByTagName('td')[3].innerText.toLowerCase();
+
+        if (name.includes(input) || id.includes(input) || key.includes(input) || majors.includes(input)) {
+          rows[i].style.display = '';
+        } else {
+          rows[i].style.display = 'none';
+        }
+      }
+    };
+
+    searchInput.addEventListener('input', filterRows);
+  });
+</script>
